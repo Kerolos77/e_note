@@ -1,5 +1,6 @@
 E:/work/flutter/e_note/build/windows/runner/Debug/data/icudtl.dat
 E:/work/flutter/e_note/build/windows/runner/Debug/flutter_windows.dll
+E:/work/flutter/e_note/build/windows/runner/Debug/permission_handler_windows_plugin.dll
 E:/work/flutter/e_note/build/windows/runner/Debug/url_launcher_windows_plugin.dll
 E:/work/flutter/e_note/build/windows/runner/Debug/data/flutter_assets/AssetManifest.json
 E:/work/flutter/e_note/build/windows/runner/Debug/data/flutter_assets/assets/animations/animated_login_screen.riv
@@ -18,4 +19,6 @@ E:/work/flutter/e_note/build/windows/runner/Debug/data/flutter_assets/fonts/Mate
 E:/work/flutter/e_note/build/windows/runner/Debug/data/flutter_assets/kernel_blob.bin
 E:/work/flutter/e_note/build/windows/runner/Debug/data/flutter_assets/NOTICES.Z
 E:/work/flutter/e_note/build/windows/runner/Debug/data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf
+E:/work/flutter/e_note/build/windows/runner/Debug/data/flutter_assets/packages/fluttertoast/assets/toastify.css
+E:/work/flutter/e_note/build/windows/runner/Debug/data/flutter_assets/packages/fluttertoast/assets/toastify.js
 E:/work/flutter/e_note/build/windows/runner/Debug/data/flutter_assets/shaders/ink_sparkle.frag

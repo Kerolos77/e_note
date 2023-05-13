@@ -26,10 +26,7 @@ class Background extends StatelessWidget {
         Color(0xFF2F80ED),
       ],
       awayAnimationCurve: Curves.easeInOutBack,
-      enableHover: true,
-      hoverColor: Colors.black,
-      hoverRadius: 90,
-      connectDots: true, //not recommended
+      // connectDots: true, //not recommended
     );
   }
 }

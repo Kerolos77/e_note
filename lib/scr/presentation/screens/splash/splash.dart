@@ -1,3 +1,4 @@
+import 'package:e_note/scr/core/componants/defult_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -15,10 +16,20 @@ class Splash extends StatelessWidget {
           const Background(),
           Stack(
             children: [
-              SvgPicture.asset(
-                'assets/images/logo_digital.svg',
-                width: 200,
-                height: 200,
+              Column(
+                children: [
+                  SvgPicture.asset(
+                    'assets/images/logo_digital.svg',
+                    width: 200,
+                    height: 200,
+                  ),
+                  defaultButton(
+                    context: context,
+                    text: 'login',
+                    isDone: true,
+                    onPress: () {},
+                  ),
+                ],
               ),
             ],
           ),
