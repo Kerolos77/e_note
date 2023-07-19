@@ -1,40 +1,40 @@
 {
   "project_info": {
-    "project_number": "529353115383",
-    "project_id": "e3dadkhodam-7c50c",
-    "storage_bucket": "e3dadkhodam-7c50c.appspot.com"
+    "project_number": "269246041090",
+    "project_id": "e-note-35bda",
+    "storage_bucket": "e-note-35bda.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:529353115383:android:532a0822ca4f70c35db5f2",
+        "mobilesdk_app_id": "1:269246041090:android:37776c1c1b1430962f6b1b",
         "android_client_info": {
           "package_name": "com.example.e_note"
         }
       },
       "oauth_client": [
         {
-          "client_id": "529353115383-61bfsd2b32f6dfb4cq94pc84ct93o7c9.apps.googleusercontent.com",
+          "client_id": "269246041090-ipb3hrs75kj1pth27f1mg7numhag4q4a.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDp3gDjX8zXcdsLTrmXmQRNokwr4oG0gFA"
+          "current_key": "AIzaSyBaoAn0p6ZtfZdYtIGV2Uu30pJOMa8CsN4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "529353115383-61bfsd2b32f6dfb4cq94pc84ct93o7c9.apps.googleusercontent.com",
+              "client_id": "269246041090-c4n23srgmhljaibjmdivi9iv06fiqah7.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "529353115383-hv8qrthlgm4isl9kda8itpimu7qbcfhm.apps.googleusercontent.com",
+              "client_id": "269246041090-fa71b54fhb5ersbs4mv4tjjrqt6u1ov0.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.e3dadKhodam"
+                "bundle_id": "com.example.eNote"
               }
             }
           ]
