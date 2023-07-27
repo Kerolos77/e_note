@@ -31,16 +31,16 @@ class Registration extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // emailController.text = 'david.ashraf@gmail.com';
-    // passwordController.text = '12345678';
+    emailController.text = 'david.ashraf@gmail.com';
+    passwordController.text = '12345678';
     // emailController.text = 'manaheg@gmail.com';
     // passwordController.text = '1WP935UR';
     // emailController.text = 'attendance@gmail.com';
     // passwordController.text = 'THQFJNWQ';
     // emailController.text = 'kerolos.khadem@gmail.com';
     // passwordController.text = '12345678';
-    emailController.text = 'marathon@gmail.com';
-    passwordController.text = 'LKFFO26Z';
+    // emailController.text = 'marathon@gmail.com';
+    // passwordController.text = 'LKFFO26Z';
     confirmPasswordController.text = '12345678';
     firstNameController.text = 'david';
     lastNameController.text = 'ashraf';

@@ -101,6 +101,27 @@ class FirebaseReposatory {
     });
   }
 
+  Future<void> createUserKraat({
+    required bool baker,
+    required bool noom,
+    required bool tnawel,
+    required bool odas,
+    required bool eatraf,
+  }) async {
+    return firebase
+        .collection('users')
+        .doc(constUid)
+        .collection('kraat')
+        .doc(DateFormat('yyyy - MM - dd').format(DateTime.now()))
+        .set({
+      'baker': baker,
+      'noom': noom,
+      'tnawel': tnawel,
+      'odas': odas,
+      'eatraf': eatraf,
+    });
+  }
+
   Future<void> updateUserAttend({
     required String? userId,
     required String lectureNum,
