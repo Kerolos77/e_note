@@ -57,6 +57,20 @@ class FirebaseReposatory {
     return firebase.collection('users').doc(userId).get();
   }
 
+  Future<QuerySnapshot<Map<String, dynamic>>> getUserAttendData(
+      {required String userId}) {
+    return firebase.collection('users').doc(userId).collection('attend').get();
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getTeamUsers() {
+    print('++++++++++++++++++ $teamId');
+    return firebase
+        .collection('users')
+        .where("teamId", isEqualTo: teamId)
+        .where('email', isNotEqualTo: constEmail)
+        .get();
+  }
+
   Future<DocumentSnapshot<Map<String, dynamic>>> getBarcode({
     required String barcode,
   }) {
@@ -65,14 +79,30 @@ class FirebaseReposatory {
 
   Future<void> createUserAttend({
     required String? userId,
+  }) async {
+    return firebase
+        .collection('users')
+        .doc(userId)
+        .collection('attend')
+        .doc(DateFormat('yyyy - MM - dd').format(DateTime.now()))
+        .set({
+      'lecture 1': '',
+      'lecture 2': '',
+    });
+  }
+
+  Future<void> updateUserAttend({
+    required String? userId,
     required String lectureNum,
   }) async {
     return firebase
-        .collection('attend')
+        .collection('users')
         .doc(userId)
-        .collection(DateFormat('yyyy - MM - dd').format(DateTime.now()))
-        .doc('lecture $lectureNum')
-        .set({'time': DateFormat('hh : mma').format(DateTime.now())});
+        .collection('attend')
+        .doc(DateFormat('yyyy - MM - dd').format(DateTime.now()))
+        .update({
+      'lecture $lectureNum': DateFormat('hh : mma').format(DateTime.now())
+    });
   }
 
   Future<QuerySnapshot<Map<String, dynamic>>> getCoupons() {

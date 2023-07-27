@@ -64,40 +64,44 @@ class _AttendanceState extends State<Attendance> {
         child: BlocConsumer<AttendCubit, AttendStates>(
             listener: (BuildContext context, state) {
               if (state is LogOutSuccessAttendState) {
-                showToast(
-                  message: 'Log out Successfully',
-                );
-                CacheHelper.removeData(key: "user");
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Registration(),
-                    ));
-              }
-              if (state is CreateAttendLoadingAttendState) {
-                progressFlag = true;
-                controller.pause();
-              }
+            showToast(
+              message: 'Log out Successfully',
+            );
+            CacheHelper.removeData(key: "user");
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Registration(),
+                ));
+          }
+          if (state is UpdateAttendLoadingAttendState ||
+              state is CreateAttendLoadingAttendState) {
+            progressFlag = true;
+            controller.pause();
+          }
 
-              if (state is CreateAttendSuccessAttendState) {
-                controller.resume();
-                progressFlag = false;
-                showToast(
-                    message: '${state.name} Is Attend Now',
-                    backgroundColor: Colors.green);
-              }
+          if (state is UpdateAttendSuccessAttendState) {
+            controller.resume();
+            progressFlag = false;
+            showToast(
+                message:
+                    '${state.name} Is Attend Now lecture ${cub.lectureFlag ? '1' : '2'}',
+                backgroundColor: Colors.green);
+          }
 
-              if (state is CreateAttendErrorAttendState) {
-                progressFlag = false;
-                showToast(message: state.error);
-              }
-              if (state is GetUserErrorAttendState) {
-                progressFlag = false;
-                showToast(
-                    message: 'user not found',
-                    backgroundColor: Colors.redAccent);
-              }
-            }, builder: (BuildContext context, state) {
+          if (state is UpdateAttendErrorAttendState) {
+            progressFlag = false;
+            showToast(message: state.error);
+            print(state.error);
+            controller.resume();
+          }
+          if (state is GetUserErrorAttendState) {
+            progressFlag = false;
+            showToast(
+                message: 'user not found', backgroundColor: Colors.redAccent);
+            controller.resume();
+          }
+        }, builder: (BuildContext context, state) {
           cub = AttendCubit.get(context);
           return Scaffold(
             backgroundColor: Colors.black,
@@ -118,7 +122,7 @@ class _AttendanceState extends State<Attendance> {
                         scanLineColor: Colors.green.shade400,
                         onCapture: (data) {
                           setState(() {
-                            cub.createUserAttend(userId: data);
+                            cub.updateUserAttend(userId: data);
                             controller.pause();
                             // cub.changeShowContainerFlag(true);
                           });

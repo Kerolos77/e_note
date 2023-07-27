@@ -2,6 +2,7 @@ import 'package:e_note/presentation/widgets/global/default_text/default_text.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../business_logic/cubit/manaheg/manaheg_cubit.dart';
 import '../../../../business_logic/cubit/manaheg/manaheg_states.dart';
@@ -112,8 +113,9 @@ class _ManahegState extends State<Manaheg> {
                             ],
                           ),
                           onTap: () async {
-                            // final Uri _url = Uri.parse(cub.pdfUrl[index]);
+                            final Uri _url = Uri.parse(cub.pdfUrl[index]);
                             // await launchUrl(_url);
+                            await launch(cub.pdfUrl[index]);
                           },
                         ),
                       ),
@@ -146,9 +148,4 @@ class _ManahegState extends State<Manaheg> {
     );
   }
 
-// Future<void> _launchUrl() async {
-//   if (!await launchUrl(_url)) {
-//     throw Exception('Could not launch $_url');
-//   }
-// }
 }

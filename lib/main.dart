@@ -14,7 +14,9 @@ Future<void> main() async {
   await CacheHelper.init();
   userType = CacheHelper.getData(key: 'userType');
   constUid = CacheHelper.getData(key: 'user');
-  FirebaseReposatory firebaseReposatory = FirebaseReposatory();
+  teamId = CacheHelper.getData(key: 'teamId');
+  constEmail = CacheHelper.getData(key: 'email');
+  // FirebaseReposatory firebaseReposatory = FirebaseReposatory();
   // firebaseReposatory.createUserAttend(userId: constUid, lectureNum: '2');
   List<String> firstName = ['david'];
   // for (int i = 0; i < firstName.length; i++) {

@@ -1,5 +1,6 @@
 import 'package:e_note/presentation/screens/users/admin/attendance.dart';
 import 'package:e_note/presentation/screens/users/admin/manaheg.dart';
+import 'package:e_note/presentation/screens/users/khadem/khadem_home.dart';
 import 'package:e_note/presentation/screens/users/makhdom/makhdom_home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,8 +32,12 @@ class Registration extends StatelessWidget {
   Widget build(BuildContext context) {
     // emailController.text = 'david.ashraf@gmail.com';
     // passwordController.text = '12345678';
-    emailController.text = 'manaheg@gmail.com';
-    passwordController.text = '1WP935UR';
+    // emailController.text = 'manaheg@gmail.com';
+    // passwordController.text = '1WP935UR';
+    // emailController.text = 'attendance@gmail.com';
+    // passwordController.text = 'THQFJNWQ';
+    emailController.text = 'kerolos.khadem@gmail.com';
+    passwordController.text = '12345678';
     confirmPasswordController.text = '12345678';
     firstNameController.text = 'david';
     lastNameController.text = 'ashraf';
@@ -70,7 +75,17 @@ class Registration extends StatelessWidget {
                       builder: (context) => const Attendance(),
                     ));
               });
+            } else if (emailController.text.contains('.khadem')) {
+              CacheHelper.putData(key: 'userType', value: 'khadem');
+              CacheHelper.putData(key: "user", value: state.uid).then((value) {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const KhademHome(),
+                    ));
+              });
             } else {
+              CacheHelper.putData(key: 'userType', value: 'makhdom');
               CacheHelper.putData(key: "user", value: state.uid).then((value) {
                 Navigator.pushReplacement(
                     context,

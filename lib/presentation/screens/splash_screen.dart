@@ -1,6 +1,7 @@
 import 'package:e_note/presentation/screens/regisation_screen.dart';
 import 'package:e_note/presentation/screens/users/admin/attendance.dart';
 import 'package:e_note/presentation/screens/users/admin/manaheg.dart';
+import 'package:e_note/presentation/screens/users/khadem/khadem_home.dart';
 import 'package:e_note/presentation/screens/users/makhdom/makhdom_home.dart';
 import 'package:flutter/material.dart';
 
@@ -27,6 +28,8 @@ class _SplashScreenState extends State<SplashScreen> {
             widget = const Manaheg();
           } else if (constUid == 'attendance') {
             widget = const Attendance();
+          } else if (userType == 'khadem') {
+            widget = const KhademHome();
           } else {
             widget = const MakhdomHome();
           }

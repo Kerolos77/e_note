@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 Widget defaultText({
   required String text,
   double size = 15,
-  Color color = const Color.fromRGBO(111, 111, 111, 1),
+  Color color = Colors.black,
 }) {
   return Text(
     text,

@@ -88,14 +88,22 @@ class RegistrationCubit extends Cubit<RegistrationState> {
             key: 'name',
             value:
                 '${value.data()!['firstName']} ${value.data()!['lastName']}');
-        CacheHelper.putData(key: 'email', value: value.data()!['email']);
+
         CacheHelper.putData(key: 'gender', value: value.data()!['gender']);
-        CacheHelper.putData(key: 'teamId', value: value.data()!['teamId']);
+        CacheHelper.putData(key: 'email', value: value.data()!['email'])
+            .then((flag) {
+          CacheHelper.putData(key: 'teamId', value: value.data()!['teamId'])
+              .then((flag) {
+            teamId = value.data()!['teamId'];
+            constEmail = value.data()!['email'];
+            emit(LoginSuccessRegistrationState(constUid!));
+          });
+        });
+
         CacheHelper.putData(
             key: 'birthDate', value: value.data()!['birthDate']);
         CacheHelper.putData(key: 'userType', value: value.data()!['userType']);
       });
-      emit(LoginSuccessRegistrationState(value.user!.uid));
     }).catchError((error) {
       emit(LoginErrorRegistrationState(error.toString()));
     });

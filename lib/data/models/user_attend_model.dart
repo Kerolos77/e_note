@@ -1,40 +1,21 @@
 class UserAttendModel {
-  late String firstName;
-  late String lastName;
-  late String email;
-  late String ID;
-  late String password;
-  late String gender;
-  late String birthDate;
-  late String teamId;
-  late String userType;
+  late String date;
+  late String lecture1;
+  late String lecture2;
 
-  UserAttendModel(this.firstName, this.lastName, this.email, this.ID,
-      this.password, this.gender, this.birthDate, this.teamId, this.userType);
+  UserAttendModel(this.date, this.lecture1, this.lecture2);
 
   UserAttendModel.fromJson(Map<String, dynamic> json) {
-    email = json['email'];
-    firstName = json['firstName'];
-    lastName = json['lastName'];
-    ID = json['id'];
-    password = json['password'];
-    gender = json['gender'];
-    birthDate = json['birthDate'];
-    teamId = json['teamId'];
-    userType = json['userType'];
+    date = json['date'];
+    lecture1 = json['lecture1'];
+    lecture2 = json['lecture2'];
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'firstName': firstName,
-      'lastName': lastName,
-      'email': email,
-      'id': ID,
-      "password": password,
-      "gender": gender,
-      "birthDate": birthDate,
-      "teamId": teamId,
-      "userType": userType,
+      'date': date,
+      'lecture1': lecture1,
+      'lecture2': lecture2,
     };
   }
 }

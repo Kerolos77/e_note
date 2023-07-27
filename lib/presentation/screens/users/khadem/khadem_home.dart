@@ -1,21 +1,20 @@
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
+import 'package:e_note/presentation/screens/users/khadem/view_marathon_team.dart';
+import 'package:e_note/presentation/screens/users/khadem/view_team_attend.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'makhdom_attend.dart';
-import 'makhdom_manaheg.dart';
-
-class MakhdomHome extends StatefulWidget {
-  const MakhdomHome({Key? key}) : super(key: key);
+class KhademHome extends StatefulWidget {
+  const KhademHome({Key? key}) : super(key: key);
 
   @override
-  State<MakhdomHome> createState() => _MakhdomHomeState();
+  State<KhademHome> createState() => _KhademHomeState();
 }
 
-class _MakhdomHomeState extends State<MakhdomHome> {
+class _KhademHomeState extends State<KhademHome> {
   var screens = [
-    const MakhdomManaheg(),
-    const MakhdomAttend(),
+    const ViewTeamMaraton(),
+    const ViewTeamAttend(),
   ];
   var screenIndex = 1;
 
@@ -26,14 +25,14 @@ class _MakhdomHomeState extends State<MakhdomHome> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(
-              FontAwesomeIcons.filePdf,
+              FontAwesomeIcons.bookBible,
               size: 20,
             ),
             label: '',
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              FontAwesomeIcons.accessibleIcon,
+              FontAwesomeIcons.fingerprint,
               size: 20,
             ),
             label: '',
