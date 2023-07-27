@@ -1,5 +1,6 @@
 import 'package:e_note/presentation/screens/users/admin/attendance.dart';
 import 'package:e_note/presentation/screens/users/admin/manaheg.dart';
+import 'package:e_note/presentation/screens/users/admin/marathon/marathon.dart';
 import 'package:e_note/presentation/screens/users/khadem/khadem_home.dart';
 import 'package:e_note/presentation/screens/users/makhdom/makhdom_home.dart';
 import 'package:flutter/material.dart';
@@ -36,8 +37,10 @@ class Registration extends StatelessWidget {
     // passwordController.text = '1WP935UR';
     // emailController.text = 'attendance@gmail.com';
     // passwordController.text = 'THQFJNWQ';
-    emailController.text = 'kerolos.khadem@gmail.com';
-    passwordController.text = '12345678';
+    // emailController.text = 'kerolos.khadem@gmail.com';
+    // passwordController.text = '12345678';
+    emailController.text = 'marathon@gmail.com';
+    passwordController.text = 'LKFFO26Z';
     confirmPasswordController.text = '12345678';
     firstNameController.text = 'david';
     lastNameController.text = 'ashraf';
@@ -64,6 +67,14 @@ class Registration extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const Manaheg(),
+                    ));
+              });
+            } else if (emailController.text == 'marathon@gmail.com') {
+              CacheHelper.putData(key: "user", value: 'marathon').then((value) {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Marathon(),
                     ));
               });
             } else if (emailController.text == 'attendance@gmail.com') {

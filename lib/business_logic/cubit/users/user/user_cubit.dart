@@ -60,15 +60,6 @@ class UserCubit extends Cubit<UserStates> {
   //   getUserData();
   // }
 
-  void getCoupons() {
-    emit(GetCouponLoadingState());
-    _firebaseReposatory.getCoupons().then((querySnapshot) {
-      couponData = querySnapshot.docs;
-      emit(GetCouponSuccessState());
-    }).catchError((error) {
-      emit(GetCouponErrorState(error.toString()));
-    });
-  }
 
   void checkScore() {
     if (int.parse(user?['score']) == 50) {

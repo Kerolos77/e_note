@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_note/data/models/marathon_model.dart';
 import 'package:e_note/data/models/user/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -32,6 +33,17 @@ class FirebaseReposatory {
     return firebase.collection('users').doc(userId).set(userModel.toMap());
   }
 
+  Future<void> createMarathon({
+    required String id,
+    required String title,
+    required String content,
+    required String modifiedTime,
+  }) async {
+    MarathonModel marathonModel =
+        MarathonModel(id, title, content, modifiedTime);
+    return firebase.collection('marathon').doc(id).set(marathonModel.toMap());
+  }
+
   Future<UserCredential> signUp({
     required String email,
     required String password,
@@ -62,6 +74,10 @@ class FirebaseReposatory {
     return firebase.collection('users').doc(userId).collection('attend').get();
   }
 
+  Future<QuerySnapshot<Map<String, dynamic>>> getMarathonData() {
+    return firebase.collection('marathon').get();
+  }
+
   Future<QuerySnapshot<Map<String, dynamic>>> getTeamUsers() {
     print('++++++++++++++++++ $teamId');
     return firebase
@@ -69,12 +85,6 @@ class FirebaseReposatory {
         .where("teamId", isEqualTo: teamId)
         .where('email', isNotEqualTo: constEmail)
         .get();
-  }
-
-  Future<DocumentSnapshot<Map<String, dynamic>>> getBarcode({
-    required String barcode,
-  }) {
-    return firebase.collection('barcodes').doc(barcode).get();
   }
 
   Future<void> createUserAttend({
@@ -105,19 +115,5 @@ class FirebaseReposatory {
     });
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getCoupons() {
-    return firebase
-        .collection('users')
-        .doc(constUid)
-        .collection('coupons')
-        .get();
-  }
 
-  void updateScore({
-    required String score,
-  }) {
-    firebase.collection('users').doc(constUid).update({
-      'score': score,
-    });
-  }
 }

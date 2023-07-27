@@ -1,14 +1,11 @@
 import 'package:e_note/presentation/widgets/global/default_text/default_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../business_logic/cubit/manaheg/manaheg_cubit.dart';
 import '../../../../business_logic/cubit/manaheg/manaheg_states.dart';
-import '../../../../data/local/cache_helper.dart';
 import '../../../widgets/global/toast.dart';
-import '../../regisation_screen.dart';
 
 class MakhdomManaheg extends StatefulWidget {
   const MakhdomManaheg({super.key});
@@ -37,17 +34,6 @@ class _MakhdomManahegState extends State<MakhdomManaheg> {
           listener: (BuildContext context, ManahegStates state) {
         print('--------------------------- $state');
 
-        if (state is LogOutSuccessManahegState) {
-          showToast(
-            message: 'Log out Successfully',
-          );
-          CacheHelper.removeData(key: "user");
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Registration(),
-              ));
-        }
         if (state is GetManahegLoadingManahegState) {
           progressFlag = true;
         }
@@ -58,22 +44,6 @@ class _MakhdomManahegState extends State<MakhdomManaheg> {
       }, builder: (BuildContext context, ManahegStates state) {
         cub = ManahegCubit.get(context);
         return Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            actions: [
-              IconButton(
-                onPressed: () {
-                  cub.logout();
-                },
-                icon: const Icon(
-                  FontAwesomeIcons.signOutAlt,
-                  size: 20,
-                  color: Colors.green,
-                ),
-              )
-            ],
-          ),
           body: Stack(
             children: [
               Padding(
@@ -105,7 +75,7 @@ class _MakhdomManahegState extends State<MakhdomManaheg> {
                       )
                     : Center(
                         child: defaultText(
-                          text: 'No Coupons Found',
+                          text: 'No Manaheg Found',
                         ),
                       ),
               ),

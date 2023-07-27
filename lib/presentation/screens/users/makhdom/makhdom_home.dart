@@ -1,7 +1,12 @@
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
+import 'package:e_note/presentation/screens/users/makhdom/makhdom_add.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../data/local/cache_helper.dart';
+import '../../../widgets/global/toast.dart';
+import '../../regisation_screen.dart';
 import 'makhdom_attend.dart';
 import 'makhdom_manaheg.dart';
 
@@ -15,6 +20,7 @@ class MakhdomHome extends StatefulWidget {
 class _MakhdomHomeState extends State<MakhdomHome> {
   var screens = [
     const MakhdomManaheg(),
+    const MakhdomAdd(),
     const MakhdomAttend(),
   ];
   var screenIndex = 1;
@@ -22,11 +28,34 @@ class _MakhdomHomeState extends State<MakhdomHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () {
+              logout();
+            },
+            icon: const Icon(
+              FontAwesomeIcons.signOutAlt,
+              size: 20,
+              color: Colors.green,
+            ),
+          )
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
             icon: Icon(
               FontAwesomeIcons.filePdf,
+              size: 20,
+            ),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              FontAwesomeIcons.add,
               size: 20,
             ),
             label: '',
@@ -58,5 +87,18 @@ class _MakhdomHomeState extends State<MakhdomHome> {
         child: screens[screenIndex],
       ),
     );
+  }
+
+  void logout() {
+    FirebaseAuth.instance.signOut();
+    showToast(
+      message: 'Log out Successfully',
+    );
+    CacheHelper.removeData(key: "user");
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Registration(),
+        ));
   }
 }

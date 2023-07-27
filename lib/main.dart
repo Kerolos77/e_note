@@ -18,19 +18,19 @@ Future<void> main() async {
   constEmail = CacheHelper.getData(key: 'email');
   // FirebaseReposatory firebaseReposatory = FirebaseReposatory();
   // firebaseReposatory.createUserAttend(userId: constUid, lectureNum: '2');
-  List<String> firstName = ['david'];
+  // List<String> firstName = ['marathon'];
   // for (int i = 0; i < firstName.length; i++) {
   //   String pass = ID.createId();
   //
-  //   String email = '${firstName[i]}_ashraf@gmail.com';
+  //   String email = '${firstName[i]}@gmail.com';
   //   firebaseReposatory.signUp(email: email, password: pass).then((value) {
   //     firebaseReposatory.createUser(
   //         userId: value.user!.uid,
   //         email: email,
   //         password: pass,
   //         firstName: firstName[i],
-  //         lastName: 'ashraf',
-  //         gender: 'Male',
+  //         lastName: '',
+  //         gender: '',
   //         birthDate: '',
   //         teamId: '',
   //         userType: '');
