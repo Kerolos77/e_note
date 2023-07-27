@@ -9,6 +9,7 @@ import '../../../widgets/global/toast.dart';
 import '../../regisation_screen.dart';
 import 'makhdom_attend.dart';
 import 'makhdom_manaheg.dart';
+import 'marathon/marathon.dart';
 
 class MakhdomHome extends StatefulWidget {
   const MakhdomHome({Key? key}) : super(key: key);
@@ -20,6 +21,7 @@ class MakhdomHome extends StatefulWidget {
 class _MakhdomHomeState extends State<MakhdomHome> {
   var screens = [
     const MakhdomManaheg(),
+    const MakhdomMarathon(),
     const MakhdomAdd(),
     const MakhdomAttend(),
   ];
@@ -55,6 +57,13 @@ class _MakhdomHomeState extends State<MakhdomHome> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
+              FontAwesomeIcons.bookBible,
+              size: 20,
+            ),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
               FontAwesomeIcons.add,
               size: 20,
             ),
@@ -62,7 +71,7 @@ class _MakhdomHomeState extends State<MakhdomHome> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              FontAwesomeIcons.accessibleIcon,
+              FontAwesomeIcons.fingerprint,
               size: 20,
             ),
             label: '',

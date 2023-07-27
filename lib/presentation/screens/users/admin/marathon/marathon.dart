@@ -113,116 +113,58 @@ class _MarathonState extends State<Marathon> {
                 )),
           ),
           Expanded(
-              child: ListView.builder(
-            padding: const EdgeInsets.only(top: 30),
-            itemCount: filteredNotoes.length,
-            itemBuilder: (context, index) {
-              return Card(
-                  margin: const EdgeInsets.only(bottom: 20),
-                  color: Colors.greenAccent.shade100,
-                  elevation: 3,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: ListTile(
-                      title: RichText(
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        text: TextSpan(
-                            text: '${filteredNotoes[index].title} \n',
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              height: 1.5,
+              child: Padding(
+            padding: const EdgeInsets.only(left: 8.0, right: 8),
+            child: ListView.builder(
+              padding: const EdgeInsets.only(top: 30),
+              itemCount: filteredNotoes.length,
+              itemBuilder: (context, index) {
+                return Card(
+                    margin: const EdgeInsets.only(bottom: 20),
+                    color: Colors.greenAccent.shade100,
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: ListTile(
+                        title: RichText(
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          text: TextSpan(
+                              text: '${filteredNotoes[index].title} \n',
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                height: 1.5,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: filteredNotoes[index].content,
+                                  style: const TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 14,
+                                      height: 1.5),
+                                )
+                              ]),
+                        ),
+                        subtitle: Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text(
+                            filteredNotoes[index].modifiedTime,
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontStyle: FontStyle.italic,
+                              color: Colors.grey.shade800,
                             ),
-                            children: [
-                              TextSpan(
-                                text: filteredNotoes[index].content,
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 14,
-                                    height: 1.5),
-                              )
-                            ]),
-                      ),
-                      subtitle: Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Text(
-                          filteredNotoes[index].modifiedTime,
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontStyle: FontStyle.italic,
-                            color: Colors.grey.shade800,
                           ),
                         ),
                       ),
-                      trailing: IconButton(
-                        onPressed: () async {
-                          final result = await showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  backgroundColor: Colors.white,
-                                  icon: const Icon(
-                                    Icons.info,
-                                    color: Colors.white,
-                                  ),
-                                  title: const Text(
-                                    'Are you Sure you want to delete ?',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  content: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.pop(context, true);
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.green),
-                                        child: const SizedBox(
-                                          width: 60,
-                                          child: Text(
-                                            'Yes',
-                                            textAlign: TextAlign.center,
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
-                                        ),
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.pop(context, false);
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.red),
-                                        child: const SizedBox(
-                                          width: 60,
-                                          child: Text(
-                                            'No',
-                                            textAlign: TextAlign.center,
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                );
-                              });
-                          if (result) {
-                            deleteNote(index);
-                          }
-                        },
-                        icon: const Icon(Icons.delete),
-                      ),
-                    ),
-                  ));
-            },
+                    ));
+              },
+            ),
           ))
         ],
       ),
