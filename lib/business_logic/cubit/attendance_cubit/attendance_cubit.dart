@@ -73,4 +73,5 @@ class AttendCubit extends Cubit<AttendStates> {
       emit(GetUserErrorAttendState(onError.toString()));
     });
   }
+
 }
