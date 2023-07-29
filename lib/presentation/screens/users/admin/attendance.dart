@@ -92,7 +92,6 @@ class _AttendanceState extends State<Attendance> {
           if (state is UpdateAttendErrorAttendState) {
             progressFlag = false;
             showToast(message: state.error);
-            print(state.error);
             controller.resume();
           }
           if (state is GetUserErrorAttendState) {

@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../data/local/cache_helper.dart';
 import '../../../widgets/global/toast.dart';
 import '../../regisation_screen.dart';
+import 'view_kraat_team.dart';
 
 class KhademHome extends StatefulWidget {
   const KhademHome({Key? key}) : super(key: key);
@@ -18,10 +19,11 @@ class KhademHome extends StatefulWidget {
 
 class _KhademHomeState extends State<KhademHome> {
   var screens = [
+    const ViewKraatTeam(),
     const ViewTeamMaraton(),
     const ViewTeamAttend(),
   ];
-  var screenIndex = 1;
+  var screenIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,13 @@ class _KhademHomeState extends State<KhademHome> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
+          BottomNavigationBarItem(
+            icon: Icon(
+              FontAwesomeIcons.file,
+              size: 20,
+            ),
+            label: '',
+          ),
           BottomNavigationBarItem(
             icon: Icon(
               FontAwesomeIcons.bookBible,

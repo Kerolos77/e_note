@@ -31,8 +31,8 @@ class Registration extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    emailController.text = 'david.ashraf@gmail.com';
-    passwordController.text = '12345678';
+    // emailController.text = 'david.ashraf@gmail.com';
+    // passwordController.text = '12345678';
     // emailController.text = 'manaheg@gmail.com';
     // passwordController.text = '1WP935UR';
     // emailController.text = 'attendance@gmail.com';
@@ -41,10 +41,10 @@ class Registration extends StatelessWidget {
     // passwordController.text = '12345678';
     // emailController.text = 'marathon@gmail.com';
     // passwordController.text = 'LKFFO26Z';
-    confirmPasswordController.text = '12345678';
-    firstNameController.text = 'david';
-    lastNameController.text = 'ashraf';
-    teamIdController.text = '12345678';
+    // confirmPasswordController.text = '12345678';
+    // firstNameController.text = 'david';
+    // lastNameController.text = 'ashraf';
+    // teamIdController.text = '12345678';
 
     return BlocProvider(
       create: (BuildContext context) => RegistrationCubit(),
@@ -178,8 +178,6 @@ class Registration extends StatelessWidget {
                                                 flag: flag,
                                                 formKey: formKey,
                                                 onTap: () {
-                                                  print(
-                                                      '----------------------${formKey.currentState}');
                                                   if (formKey.currentState!
                                                       .validate()) {
                                                     cub.login(
@@ -200,8 +198,6 @@ class Registration extends StatelessWidget {
                                                 formKey: formKey,
                                                 flag: flag,
                                                 onTap: () {
-                                                  print(
-                                                      '----------------------${formKey.currentState}');
                                                   if (formKey.currentState!
                                                       .validate()) {
                                                     cub.signUp(

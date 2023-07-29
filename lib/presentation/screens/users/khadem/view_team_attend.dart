@@ -35,10 +35,10 @@ class _ViewTeamAttendState extends State<ViewTeamAttend> {
                   slivers: <Widget>[
                     SliverAppBar(
                       backgroundColor: Colors.white,
-                      pinned: true,
+                      pinned: false,
                       snap: false,
                       floating: false,
-                      expandedHeight: 200.0,
+                      expandedHeight: 120.0,
                       bottom: PreferredSize(
                         preferredSize: const Size.fromHeight(4.0),
                         child: Row(
@@ -69,71 +69,76 @@ class _ViewTeamAttendState extends State<ViewTeamAttend> {
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: cub.names.isNotEmpty
-                                  ? DropdownButtonFormField2<String>(
-                                      isExpanded: true,
-                                      decoration: InputDecoration(
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                                vertical: 16),
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                      ),
-                                      hint: const Text(
-                                        'Select Your Team Member',
-                                        style: TextStyle(fontSize: 14),
-                                      ),
-                                      items: cub.names
-                                          .map((item) =>
-                                              DropdownMenuItem<String>(
-                                                value: item,
-                                                child: Text(
-                                                  item,
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                  ),
-                                                ),
-                                              ))
-                                          .toList(),
-                                      validator: (value) {
-                                        if (value == null) {
-                                          return 'Please select Team Member.';
-                                        }
-                                        return null;
-                                      },
-                                      onChanged: (value) {
-                                        print(
-                                            "*************** ${cub.ids[value.toString()]}");
-                                        cub.getUserAttend(cub.ids[value]!);
-                                      },
-                                      onSaved: (value) {
-                                        selectedValue = value.toString();
-                                      },
-                                      buttonStyleData: const ButtonStyleData(
-                                        padding: EdgeInsets.only(right: 8),
-                                      ),
-                                      iconStyleData: const IconStyleData(
-                                        icon: Icon(
-                                          Icons.arrow_drop_down,
-                                          color: Colors.black45,
-                                        ),
-                                        iconSize: 24,
-                                      ),
-                                      dropdownStyleData: DropdownStyleData(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                      ),
-                                      menuItemStyleData:
-                                          const MenuItemStyleData(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 16),
-                                      ),
-                                    )
-                                  : CircularProgressIndicator(),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  defaultText(text: 'Attendance', size: 30),
+                                  cub.names.isNotEmpty
+                                      ? DropdownButtonFormField2<String>(
+                                          isExpanded: true,
+                                          decoration: InputDecoration(
+                                            contentPadding:
+                                                const EdgeInsets.symmetric(
+                                                    vertical: 16),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                            ),
+                                          ),
+                                          hint: const Text(
+                                            'Select Your Team Member',
+                                            style: TextStyle(fontSize: 14),
+                                          ),
+                                          items: cub.names
+                                              .map((item) =>
+                                                  DropdownMenuItem<String>(
+                                                    value: item,
+                                                    child: Text(
+                                                      item,
+                                                      style: const TextStyle(
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  ))
+                                              .toList(),
+                                          validator: (value) {
+                                            if (value == null) {
+                                              return 'Please select Team Member.';
+                                            }
+                                            return null;
+                                          },
+                                          onChanged: (value) {
+                                            cub.getUserAttend(cub.ids[value]!);
+                                          },
+                                          onSaved: (value) {
+                                            selectedValue = value.toString();
+                                          },
+                                          buttonStyleData:
+                                              const ButtonStyleData(
+                                            padding: EdgeInsets.only(right: 8),
+                                          ),
+                                          iconStyleData: const IconStyleData(
+                                            icon: Icon(
+                                              Icons.arrow_drop_down,
+                                              color: Colors.black45,
+                                            ),
+                                            iconSize: 24,
+                                          ),
+                                          dropdownStyleData: DropdownStyleData(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                            ),
+                                          ),
+                                          menuItemStyleData:
+                                              const MenuItemStyleData(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 16),
+                                          ),
+                                        )
+                                      : const CircularProgressIndicator(),
+                                ],
+                              ),
                             ),
                           ),
                         ),

@@ -49,7 +49,6 @@ class ManahegCubit extends Cubit<ManahegStates> {
         var url = await reference.getDownloadURL();
         getMnaheg();
         emit(UploadFileSuccessManahegState());
-
         // CacheHelper.putData(key: name, value: url.toString());
       }).catchError((error) {
         emit(UploadFileErrorManahegState(error.toString()));
@@ -59,33 +58,31 @@ class ManahegCubit extends Cubit<ManahegStates> {
   }
 
   void getMnaheg() {
+    pdfNames = [];
+    pdfUrl = [];
     emit(GetManahegLoadingManahegState());
-    _storage.ref().listAll().then((value) {
-      value.items.forEach((Reference ref) {
+    _storage.ref().listAll().then((v) {
+      v.items.forEach((Reference ref) {
         ref.getDownloadURL().then((value) {
           pdfNames.add(ref.fullPath);
           pdfUrl.add(value);
-          print(' ********************************** Found file: $value');
-          emit(GetManahegSuccessManahegState());
+          if (v.items.last == ref) {
+            emit(GetManahegSuccessManahegState());
+          }
         });
       });
-    }).catchError((error) {
-      print(' ********************************** Found file: $error');
-    });
+    }).catchError((error) {});
   }
 
   Future<File> createFileOfPdfUrl() async {
     Completer<File> completer = Completer();
-    print("Start download file from internet!");
     try {
-      final url = "http://www.pdf995.com/samples/pdf.pdf";
+      var url = "";
       final filename = url.substring(url.lastIndexOf("/") + 1);
       var request = await HttpClient().getUrl(Uri.parse(url));
       var response = await request.close();
       var bytes = await consolidateHttpClientResponseBytes(response);
       var dir = await getApplicationDocumentsDirectory();
-      print("Download files");
-      print("${dir.path}/$filename");
       File file = File("${dir.path}/$filename");
 
       await file.writeAsBytes(bytes, flush: true);

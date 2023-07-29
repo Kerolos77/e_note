@@ -1,5 +1,5 @@
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
-import 'package:e_note/presentation/screens/users/makhdom/makhdom_add.dart';
+import 'package:e_note/presentation/screens/users/makhdom/makhdom_kraat.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,7 +9,7 @@ import '../../../widgets/global/toast.dart';
 import '../../regisation_screen.dart';
 import 'makhdom_attend.dart';
 import 'makhdom_manaheg.dart';
-import 'marathon/marathon.dart';
+import 'marathon.dart';
 
 class MakhdomHome extends StatefulWidget {
   const MakhdomHome({Key? key}) : super(key: key);
@@ -22,7 +22,7 @@ class _MakhdomHomeState extends State<MakhdomHome> {
   var screens = [
     const MakhdomManaheg(),
     const MakhdomMarathon(),
-    const MakhdomAdd(),
+    const MakhdomKraat(),
     const MakhdomAttend(),
   ];
   var screenIndex = 1;

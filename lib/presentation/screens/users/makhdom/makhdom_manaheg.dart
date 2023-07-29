@@ -32,7 +32,6 @@ class _MakhdomManahegState extends State<MakhdomManaheg> {
       create: (BuildContext context) => ManahegCubit()..getMnaheg(),
       child: BlocConsumer<ManahegCubit, ManahegStates>(
           listener: (BuildContext context, ManahegStates state) {
-        print('--------------------------- $state');
 
         if (state is GetManahegLoadingManahegState) {
           progressFlag = true;
@@ -59,7 +58,9 @@ class _MakhdomManahegState extends State<MakhdomManaheg> {
                                   Icons.picture_as_pdf,
                                   size: 60,
                                 ),
-                                defaultText(text: cub.pdfNames[index])
+                                Expanded(
+                                    child:
+                                        defaultText(text: cub.pdfNames[index]))
                               ],
                             ),
                             onTap: () async {
@@ -90,7 +91,7 @@ class _MakhdomManahegState extends State<MakhdomManaheg> {
                         const CircularProgressIndicator(),
                       ],
                     )
-                  : SizedBox(),
+                  : const SizedBox(),
             ],
           ),
         );

@@ -19,24 +19,12 @@ class AttendCubit extends Cubit<AttendStates> {
 
   Map<String, dynamic>? user;
 
-  // void getUserData() {
-  //   _firebaseReposatory.getUserData().then((value) {
-  //     user = value.data() as Map<String, dynamic>;
-  //     emit(GetUserSuccessAttendState());
-  //   }).catchError((error) {
-  //     emit(GetUserErrorAttendState(error.toString()));
-  //   });
-  // }
 
   void changeLectureFlag(flag) {
     lectureFlag = flag;
     emit(ChangeLectureFlagAttendState());
   }
 
-  // void changeShowContainerFlag(flag) {
-  //   showContainerFlag = flag;
-  //   emit(ChangeAttendState());
-  // }
 
   void logout() {
     _firebaseReposatory.logout();
@@ -49,7 +37,6 @@ class AttendCubit extends Cubit<AttendStates> {
       updateUserAttend(userId: userId);
     }).catchError((onError) {
       emit(CreateAttendErrorAttendState(onError.toString()));
-      print('********************** ${onError.toString()}');
     });
   }
 

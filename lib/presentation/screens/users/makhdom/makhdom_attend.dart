@@ -59,7 +59,6 @@ class _MakhdomAttendState extends State<MakhdomAttend> {
         create: (BuildContext context) => ManahegCubit(),
         child: BlocConsumer<ManahegCubit, ManahegStates>(
             listener: (BuildContext context, ManahegStates state) {
-          print('***************************************$state');
 
           if (state is CreateBarcodeLoadingManahegState) {
             cub.changeShowContainerFlag(false);

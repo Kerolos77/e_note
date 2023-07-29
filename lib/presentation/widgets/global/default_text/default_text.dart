@@ -8,6 +8,7 @@ Widget defaultText({
 }) {
   return Text(
     text,
+    overflow: TextOverflow.ellipsis,
     style: GoogleFonts.roboto(
         fontSize: size, color: color, fontWeight: FontWeight.w500),
   );
