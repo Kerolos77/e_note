@@ -5,10 +5,11 @@ Widget defaultText({
   required String text,
   double size = 15,
   Color color = Colors.black,
+  bool overflow = true,
 }) {
   return Text(
     text,
-    overflow: TextOverflow.ellipsis,
+    overflow: overflow ? TextOverflow.ellipsis : TextOverflow.clip,
     style: GoogleFonts.roboto(
         fontSize: size, color: color, fontWeight: FontWeight.w500),
   );

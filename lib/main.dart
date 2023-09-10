@@ -1,7 +1,10 @@
+import 'package:bloc/bloc.dart';
 import 'package:e_note/presentation/screens/splash_screen.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'business_logic/cubit/bloc_observer.dart';
 import 'constants/conestant.dart';
 import 'data/firecase/firebase_reposatory.dart';
 import 'data/firecase/firecbase_fcm.dart';
@@ -11,6 +14,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FirebaseReposatory.initFirebase();
   await FirebaseFCM().initNotifications();
+  Bloc.observer = Observer();
+  // Pass all uncaught "fatal" errors from the framework to Crashlytics
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   await CacheHelper.init();
   userType = CacheHelper.getData(key: 'userType');
   constUid = CacheHelper.getData(key: 'user');
@@ -59,7 +65,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }

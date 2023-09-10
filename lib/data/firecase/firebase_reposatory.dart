@@ -94,7 +94,6 @@ class FirebaseReposatory {
   }
 
   Future<QuerySnapshot<Map<String, dynamic>>> getTeamUsers() {
-    print('++++++++++++++++++ $teamId');
     return firebase
         .collection('users')
         .where("teamId", isEqualTo: teamId)
@@ -109,7 +108,7 @@ class FirebaseReposatory {
         .collection('users')
         .doc(userId)
         .collection('attend')
-        .doc(DateFormat('yyyy - MM - dd').format(DateTime.now()))
+        .doc(DateFormat('yyyy-MM-dd').format(DateTime.now()))
         .set({
       'lecture 1': '',
       'lecture 2': '',
@@ -127,8 +126,23 @@ class FirebaseReposatory {
         .doc(marathonId)
         .set({
       'answer': answer,
-      'modifiedTime':
-          DateFormat('EEE MMM  d, yyy  h:mm a').format(DateTime.now()),
+      'comment': '',
+      'modifiedTime': DateTime.now().toString(),
+    });
+  }
+
+  Future<void> updateUserMarathonAnswer({
+    required String comment,
+    required String marathonId,
+    required String userId,
+  }) async {
+    return firebase
+        .collection('users')
+        .doc(userId)
+        .collection('marathon')
+        .doc(marathonId)
+        .update({
+      'comment': comment,
     });
   }
 
@@ -149,7 +163,7 @@ class FirebaseReposatory {
     required bool newBible,
   }) async {
     KraatModel kraatModel = KraatModel(
-        DateFormat('yyyy - MM - dd').format(DateTime.now()).toString(),
+        DateFormat('yyyy-MM-dd').format(DateTime.now()).toString(),
         baker,
         talta,
         sata,
@@ -168,7 +182,7 @@ class FirebaseReposatory {
         .collection('users')
         .doc(constUid)
         .collection('kraat')
-        .doc(DateFormat('yyyy - MM - dd').format(DateTime.now()))
+        .doc(DateFormat('yyyy-MM-dd').format(DateTime.now()))
         .set(kraatModel.toMap());
   }
 
@@ -180,7 +194,7 @@ class FirebaseReposatory {
         .collection('users')
         .doc(userId)
         .collection('attend')
-        .doc(DateFormat('yyyy - MM - dd').format(DateTime.now()))
+        .doc(DateFormat('yyyy-MM-dd').format(DateTime.now()))
         .update({
       'lecture $lectureNum': DateFormat('hh : mma').format(DateTime.now())
     });

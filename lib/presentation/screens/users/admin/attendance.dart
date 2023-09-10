@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:scan/scan.dart';
 
-import '../../../../business_logic/cubit/attendance_cubit/attendance_cubit.dart';
-import '../../../../business_logic/cubit/attendance_cubit/attendance_states.dart';
+import '../../../../business_logic/cubit/attendance/attendance_cubit.dart';
+import '../../../../business_logic/cubit/attendance/attendance_states.dart';
 import '../../../../data/local/cache_helper.dart';
 import '../../../widgets/global/toast.dart';
 import '../../regisation_screen.dart';
@@ -113,7 +113,7 @@ class _AttendanceState extends State<Attendance> {
                   alignment: Alignment.bottomRight,
                   children: [
                     SizedBox(
-                      width: width, // custom wrap size
+                      width: width,
                       height: height,
                       child: ScanView(
                         controller: controller,
@@ -123,7 +123,6 @@ class _AttendanceState extends State<Attendance> {
                           setState(() {
                             cub.updateUserAttend(userId: data);
                             controller.pause();
-                            // cub.changeShowContainerFlag(true);
                           });
                         },
                       ),
@@ -164,15 +163,6 @@ class _AttendanceState extends State<Attendance> {
                               size: 25,
                               color: Colors.white),
                         ),
-                        // FloatingActionButton(
-                        //   mini: true,
-                        //   onPressed: () {
-                        //     setState(() {
-                        //       PdfHelper.createPDF(cub, 'kerolos', constUid!);
-                        //     });
-                        //   },
-                        //   child: Icon(FontAwesomeIcons.filePdf),
-                        // )
                       ],
                     ),
                     progressFlag

@@ -4,7 +4,7 @@
 // import 'package:pdf/widgets.dart' as pw;
 // import 'package:pdf/widgets.dart';
 //
-// import '../business_logic/cubit/attendance_cubit/attendance_cubit.dart';
+// import '../business_logic/cubit/attendance_cubit/view_marathon_team_cubit.dart';
 // import 'mobile.dart';
 //
 // class PdfHelper {

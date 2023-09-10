@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_note/business_logic/cubit/regidtration_cubit/registration_states.dart';
+import 'package:e_note/business_logic/cubit/regidtration/registration_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../constants/conestant.dart';

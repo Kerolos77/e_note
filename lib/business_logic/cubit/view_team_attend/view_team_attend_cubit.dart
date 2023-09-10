@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../constants/conestant.dart';
 import '../../../data/firecase/firebase_reposatory.dart';
-import '../../../data/local/cache_helper.dart';
 import 'view_team_attend_states.dart';
 
 class ViewTeamAttendCubit extends Cubit<ViewTeamAttendStates> {
@@ -12,42 +11,38 @@ class ViewTeamAttendCubit extends Cubit<ViewTeamAttendStates> {
   static ViewTeamAttendCubit get(context) => BlocProvider.of(context);
 
   late UserAttendModel attendModel;
-  int userIndex = 0;
-  List<String> names = [];
-  Map<String, String> ids = {};
+  Map<String, int> attendCount = {
+    'total': 0,
+    'lecture1': 0,
+    'lecture2': 0,
+  };
 
   List<UserAttendModel> userAttendList = [];
-  Map<String, dynamic>? user;
   FirebaseReposatory firebaseReposatory = FirebaseReposatory();
-
-  void getTeamUsers() {
-    teamId = CacheHelper.getData(key: 'teamId');
-    emit(GetUsersLoadingViewTeamAttendState());
-    firebaseReposatory.getTeamUsers().then((value) {
-      for (int i = 0; i < value.docs.length; i++) {
-        // userList.add(value.docs[i].data());
-        names.add(
-            "${value.docs[i].data()['firstName']} ${value.docs[i].data()['lastName']}");
-        ids.addAll({
-          "${value.docs[i].data()['firstName']} ${value.docs[i].data()['lastName']}":
-              value.docs[i].data()['id'],
-        });
-      }
-      emit(GetUsersSuccessViewTeamAttendState());
-    });
-  }
 
   void getUserAttend(String userId) {
     emit(GetUserAttendLoadingViewTeamAttendState());
     firebaseReposatory.getUserAttendData(userId: userId).then((value) {
       userAttendList = [];
+      DateTime start = DateTime.parse(startDate);
+      DateTime end = DateTime.parse(endDate);
       for (int i = 0; i < value.docs.length; i++) {
-        attendModel = UserAttendModel(
-            value.docs[i].id,
-            value.docs[i].data()['lecture 1'] ?? '-------',
-            value.docs[i].data()['lecture 2'] ?? '-------');
-        userAttendList.add(attendModel);
+        DateTime date = DateTime.parse(value.docs[i].id.toString());
+        if (date.compareTo(start) > 0 && date.compareTo(end) < 0) {
+          attendModel = UserAttendModel(
+              value.docs[i].id,
+              value.docs[i].data()['lecture 1'] ?? '-------',
+              value.docs[i].data()['lecture 2'] ?? '-------');
+          userAttendList.add(attendModel);
+          if (attendModel.lecture1 != '-------') {
+            attendCount['lecture1'] = attendCount['lecture1']! + 1;
+          }
+          if (attendModel.lecture1 != '-------') {
+            attendCount['lecture2'] = attendCount['lecture2']! + 1;
+          }
+        }
       }
+      attendCount['total'] = userAttendList.length;
       emit(GetUserAttendSuccessViewTeamAttendState());
     });
   }

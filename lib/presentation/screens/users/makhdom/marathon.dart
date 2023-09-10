@@ -149,6 +149,31 @@ class _MakhdomMarathonState extends State<MakhdomMarathon> {
                               ),
                             ),
                           ),
+                          filteredNotoes[index].comment != ''
+                              ? ListTile(
+                                  title: RichText(
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                    text: TextSpan(
+                                        text: 'Comment \n',
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                            text: filteredNotoes[index].comment,
+                                            style: const TextStyle(
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 12,
+                                            ),
+                                          )
+                                        ]),
+                                  ),
+                                )
+                              : const SizedBox(),
                           const SizedBox(
                             height: 10,
                           ),
@@ -201,11 +226,12 @@ class _MakhdomMarathonState extends State<MakhdomMarathon> {
           .getUserMarathonAnswerData(userId: constUid)
           .then((answer) {
         for (int i = 0; i < value.docs.length; i++) {
-          String ans = '', modifiedAnswerDate = '';
+          String ans = '', modifiedAnswerDate = '', comment = '';
           for (int j = 0; j < answer.docs.length; j++) {
             if (value.docs[i].data()['id'] == answer.docs[j].id) {
               ans = answer.docs[j].data()['answer'];
               modifiedAnswerDate = answer.docs[j].data()['modifiedTime'];
+              comment = answer.docs[j].data()['comment'];
             }
           }
           marathonAnswerModel = MarathonAnswerModel(
@@ -215,6 +241,7 @@ class _MakhdomMarathonState extends State<MakhdomMarathon> {
             value.docs[i].data()['modifiedTime'],
             modifiedAnswerDate,
             ans,
+            comment,
           );
           sampleNotes.add(marathonAnswerModel);
         }

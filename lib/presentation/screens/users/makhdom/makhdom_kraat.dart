@@ -362,8 +362,7 @@ class _MakhdomKraatState extends State<MakhdomKraat> {
                 text: 'SAVE',
                 onTap: () {
                   var date = CacheHelper.getData(key: 'date');
-                  if (date !=
-                      DateFormat('yyyy - MM - dd').format(DateTime.now())) {
+                  if (date != DateFormat('yyyy-MM-dd').format(DateTime.now())) {
                     createUserKraat(
                       baker: bakerState,
                       talta: taltaState,
@@ -430,11 +429,12 @@ class _MakhdomKraatState extends State<MakhdomKraat> {
     )
         .then((value) {
       CacheHelper.putData(
-          key: 'date',
-          value: DateFormat('yyyy - MM - dd').format(DateTime.now()));
+          key: 'date', value: DateFormat('yyyy-MM-dd').format(DateTime.now()));
       showToast(
         message: 'Done',
       );
-    }).catchError((onError) {});
+    }).catchError((onError) {
+      print(onError);
+    });
   }
 }

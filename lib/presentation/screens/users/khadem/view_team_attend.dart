@@ -1,4 +1,4 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:e_note/constants/conestant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,6 +15,7 @@ class ViewTeamAttend extends StatefulWidget {
 
 class _ViewTeamAttendState extends State<ViewTeamAttend> {
   String? selectedValue;
+  bool loadingFlag = false;
 
   @override
   Widget build(BuildContext context) {
@@ -22,181 +23,124 @@ class _ViewTeamAttendState extends State<ViewTeamAttend> {
     double height = MediaQuery.of(context).size.height;
 
     return BlocProvider(
-        create: (BuildContext context) => ViewTeamAttendCubit()..getTeamUsers(),
+        create: (BuildContext context) =>
+            ViewTeamAttendCubit()..getUserAttend(memberID!),
         child: BlocConsumer<ViewTeamAttendCubit, ViewTeamAttendStates>(
-          listener: (BuildContext context, ViewTeamAttendStates state) {},
+          listener: (BuildContext context, ViewTeamAttendStates state) {
+            if (state is GetUserAttendLoadingViewTeamAttendState) {
+              loadingFlag = true;
+            } else {
+              loadingFlag = false;
+            }
+          },
           builder: (BuildContext context, ViewTeamAttendStates state) {
             ViewTeamAttendCubit cub = ViewTeamAttendCubit.get(context);
-            return RefreshIndicator(
-              onRefresh: () async {},
-              child: Scaffold(
-                backgroundColor: Colors.white,
-                body: CustomScrollView(
-                  slivers: <Widget>[
-                    SliverAppBar(
+
+            return loadingFlag
+                ? SizedBox(width: width, child: const LinearProgressIndicator())
+                : RefreshIndicator(
+                    onRefresh: () async {
+                      cub.getUserAttend(memberID!);
+                    },
+                    child: Scaffold(
                       backgroundColor: Colors.white,
-                      pinned: false,
-                      snap: false,
-                      floating: false,
-                      expandedHeight: 120.0,
-                      bottom: PreferredSize(
-                        preferredSize: const Size.fromHeight(4.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Expanded(
-                              child: Center(child: defaultText(text: 'Date')),
-                            ),
-                            Expanded(
-                                child: Center(
-                                    child: defaultText(text: 'lecture 1'))),
-                            Expanded(
-                                child: Center(
-                                    child: defaultText(text: 'lecture 2'))),
-                          ],
+                      body: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                cub.userAttendList.isEmpty
+                                    ? SizedBox(
+                                        width: width,
+                                        height: height / 2,
+                                        child: Center(
+                                            child: defaultText(
+                                                text: "NO DATA FOUND ")))
+                                    : DataTable(columnSpacing: 30, columns: [
+                                        DataColumn(
+                                          label: defaultText(
+                                              text: 'Date', size: 13),
+                                        ),
+                                        DataColumn(
+                                          label: defaultText(
+                                              text: 'lecture 1', size: 13),
+                                        ),
+                                        DataColumn(
+                                          label: defaultText(
+                                              text: 'lecture 2', size: 13),
+                                        ),
+                                      ], rows: [
+                                        for (int i = 0;
+                                            i < cub.userAttendList.length;
+                                            i++)
+                                          DataRow(cells: [
+                                            DataCell(
+                                              Center(
+                                                child: defaultText(
+                                                    text: cub
+                                                        .userAttendList[i].date,
+                                                    size: 13),
+                                              ),
+                                            ),
+                                            DataCell(
+                                              Center(
+                                                child: defaultText(
+                                                    text: cub.userAttendList[i]
+                                                        .lecture1,
+                                                    size: 13),
+                                              ),
+                                            ),
+                                            DataCell(
+                                              Center(
+                                                child: defaultText(
+                                                    text: cub.userAttendList[i]
+                                                        .lecture2,
+                                                    size: 13),
+                                              ),
+                                            ),
+                                          ]),
+                                        DataRow(
+                                            color:
+                                                MaterialStateColor.resolveWith(
+                                                    (states) => Colors.black12),
+                                            cells: [
+                                              DataCell(
+                                                Center(
+                                                  child: defaultText(
+                                                      text: cub
+                                                          .attendCount['total']
+                                                          .toString(),
+                                                      size: 13),
+                                                ),
+                                              ),
+                                              DataCell(
+                                                Center(
+                                                  child: defaultText(
+                                                      text: cub.attendCount[
+                                                              'lecture1']
+                                                          .toString(),
+                                                      size: 13),
+                                                ),
+                                              ),
+                                              DataCell(
+                                                Center(
+                                                  child: defaultText(
+                                                      text: cub.attendCount[
+                                                              'lecture2']
+                                                          .toString(),
+                                                      size: 13),
+                                                ),
+                                              ),
+                                            ])
+                                      ])
+                              ]),
                         ),
                       ),
-                      flexibleSpace: FlexibleSpaceBar(
-                        background: Container(
-                          decoration: const BoxDecoration(
-                              gradient: LinearGradient(
-                                  begin: Alignment.bottomRight,
-                                  end: Alignment.topLeft,
-                                  colors: <Color>[
-                                Colors.white,
-                                Colors.white,
-                              ])),
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  defaultText(text: 'Attendance', size: 30),
-                                  cub.names.isNotEmpty
-                                      ? DropdownButtonFormField2<String>(
-                                          isExpanded: true,
-                                          decoration: InputDecoration(
-                                            contentPadding:
-                                                const EdgeInsets.symmetric(
-                                                    vertical: 16),
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                            ),
-                                          ),
-                                          hint: const Text(
-                                            'Select Your Team Member',
-                                            style: TextStyle(fontSize: 14),
-                                          ),
-                                          items: cub.names
-                                              .map((item) =>
-                                                  DropdownMenuItem<String>(
-                                                    value: item,
-                                                    child: Text(
-                                                      item,
-                                                      style: const TextStyle(
-                                                        fontSize: 14,
-                                                      ),
-                                                    ),
-                                                  ))
-                                              .toList(),
-                                          validator: (value) {
-                                            if (value == null) {
-                                              return 'Please select Team Member.';
-                                            }
-                                            return null;
-                                          },
-                                          onChanged: (value) {
-                                            cub.getUserAttend(cub.ids[value]!);
-                                          },
-                                          onSaved: (value) {
-                                            selectedValue = value.toString();
-                                          },
-                                          buttonStyleData:
-                                              const ButtonStyleData(
-                                            padding: EdgeInsets.only(right: 8),
-                                          ),
-                                          iconStyleData: const IconStyleData(
-                                            icon: Icon(
-                                              Icons.arrow_drop_down,
-                                              color: Colors.black45,
-                                            ),
-                                            iconSize: 24,
-                                          ),
-                                          dropdownStyleData: DropdownStyleData(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                            ),
-                                          ),
-                                          menuItemStyleData:
-                                              const MenuItemStyleData(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 16),
-                                          ),
-                                        )
-                                      : const CircularProgressIndicator(),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      elevation: 9.0,
                     ),
-                    cub.userAttendList.isEmpty
-                        ? const SliverToBoxAdapter(
-                            child: LinearProgressIndicator(),
-                          )
-                        : SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                              (BuildContext context, int index) => buildList(
-                                date: cub.userAttendList[index].date,
-                                time1: cub.userAttendList[index].lecture1,
-                                time2: cub.userAttendList[index].lecture2,
-                              ),
-                              childCount: cub.userAttendList.length,
-                            ),
-                          ),
-                  ],
-                ),
-              ),
-            );
+                  );
           },
         ));
-  }
-
-  Widget buildList(
-      {required String date, required String time1, required String time2}) {
-    Color? color = Colors.white;
-
-    Widget listItem;
-    listItem = Card(
-      margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-      color: color,
-      child: Container(
-        padding: const EdgeInsets.all(5.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Expanded(
-              child: Center(child: defaultText(text: date)),
-            ),
-            Expanded(child: Center(child: defaultText(text: time1))),
-            Expanded(child: Center(child: defaultText(text: time2))),
-          ],
-        ),
-      ),
-    );
-
-    return Stack(
-      children: [
-        Container(
-          // color: ConstColors.coffeeLight,
-          child: listItem,
-        ),
-      ],
-    );
   }
 }

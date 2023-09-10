@@ -1,7 +1,6 @@
 import 'package:e_note/data/firecase/firebase_reposatory.dart';
 import 'package:e_note/utiles/id.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../../data/models/marathon_model.dart';
 import '../../../../widgets/global/toast.dart';
@@ -77,8 +76,7 @@ class _MarathonAddState extends State<MarathonAdd> {
                     id: ID.createId(),
                     title: _titleController.text,
                     content: _contentController.text,
-                    modifiedTime: DateFormat('EEE MMM  d, yyy  h:mm a')
-                        .format(DateTime.now()))
+                    modifiedTime: DateTime.now().toString())
                 .then((value) {
               showToast(
                 message: 'Done',

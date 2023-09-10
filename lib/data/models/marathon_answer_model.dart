@@ -5,6 +5,7 @@ class MarathonAnswerModel {
   late String modifiedTime;
   late String modifiedAnswerDate;
   late String answer;
+  late String comment;
 
   MarathonAnswerModel(
     this.id,
@@ -13,6 +14,7 @@ class MarathonAnswerModel {
     this.modifiedTime,
     this.modifiedAnswerDate,
     this.answer,
+    this.comment,
   );
 
   MarathonAnswerModel.fromJson(Map<String, dynamic> json) {
@@ -22,6 +24,7 @@ class MarathonAnswerModel {
     modifiedTime = json['modifiedTime'];
     modifiedAnswerDate = json['modifiedAnswerDate'];
     answer = json['answer'];
+    comment = json['comment'];
   }
 
   Map<String, dynamic> toMap() {
@@ -32,6 +35,7 @@ class MarathonAnswerModel {
       'modifiedTime': modifiedTime,
       'modifiedAnswerDate': modifiedAnswerDate,
       'answer': answer,
+      'comment': comment,
     };
   }
 }

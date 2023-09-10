@@ -1,10 +1,16 @@
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:e_note/presentation/screens/users/khadem/view_marathon_team.dart';
 import 'package:e_note/presentation/screens/users/khadem/view_team_attend.dart';
+import 'package:e_note/presentation/widgets/global/default_text/default_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+import '../../../../constants/conestant.dart';
+import '../../../../data/firecase/firebase_reposatory.dart';
 import '../../../../data/local/cache_helper.dart';
 import '../../../widgets/global/toast.dart';
 import '../../regisation_screen.dart';
@@ -23,7 +29,19 @@ class _KhademHomeState extends State<KhademHome> {
     const ViewTeamMaraton(),
     const ViewTeamAttend(),
   ];
+  Map<String, String> ids = {};
+  List<String> names = [];
+  String? selectedValue;
+  bool dateFlag = false;
+
   var screenIndex = 0;
+  FirebaseReposatory firebaseReposatory = FirebaseReposatory();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getTeamUsers();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +50,38 @@ class _KhademHomeState extends State<KhademHome> {
         backgroundColor: Colors.white,
         elevation: 0,
         actions: [
+          TextButton(
+            onPressed: () {
+              dateFlag = true;
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      scrollable: true,
+                      content: SfDateRangePicker(
+                        onSelectionChanged: _onSelectionChanged,
+                        viewSpacing: 20,
+                        selectionMode: DateRangePickerSelectionMode.range,
+                        selectionShape: DateRangePickerSelectionShape.rectangle,
+                        initialSelectedRange: PickerDateRange(
+                          DateTime.parse(startDate),
+                          DateTime.parse(endDate),
+                        ),
+                      ),
+                    );
+                  }).then((value) {
+                dateFlag = false;
+                setState(() {});
+              });
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                defaultText(text: startDate, size: 10),
+                defaultText(text: endDate, size: 10),
+              ],
+            ),
+          ),
           IconButton(
             onPressed: () {
               logout();
@@ -43,6 +93,63 @@ class _KhademHomeState extends State<KhademHome> {
             ),
           )
         ],
+        title: Column(
+          children: [
+            names.isNotEmpty
+                ? DropdownButtonFormField2<String>(
+                    isExpanded: true,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(vertical: 0),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    hint: defaultText(text: 'Select Team Member', size: 10),
+                    items: names
+                        .map((item) => DropdownMenuItem<String>(
+                              value: item,
+                              child: defaultText(text: item, size: 10),
+                            ))
+                        .toList(),
+                    validator: (value) {
+                      if (value == null) {
+                        return 'Please select Team Member.';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      memberID = ids[value];
+                      selectedValue = value.toString();
+                      setState(() {});
+                    },
+                    onSaved: (value) {
+                      selectedValue = value.toString();
+                    },
+                    buttonStyleData: const ButtonStyleData(
+                      padding: EdgeInsets.only(right: 8),
+                    ),
+                    iconStyleData: const IconStyleData(
+                      icon: Icon(
+                        Icons.arrow_drop_down,
+                        color: Colors.black45,
+                      ),
+                      iconSize: 24,
+                    ),
+                    dropdownStyleData: DropdownStyleData(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    menuItemStyleData: const MenuItemStyleData(
+                      padding: EdgeInsets.symmetric(horizontal: 8),
+                    ),
+                  )
+                : const LinearProgressIndicator(),
+            // defaultText(
+            //   text: _range,
+            // ),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
@@ -84,7 +191,15 @@ class _KhademHomeState extends State<KhademHome> {
         snackBar: const SnackBar(
           content: Text('Tap back again to leave'),
         ),
-        child: screens[screenIndex],
+        child: selectedValue == null
+            ? Center(
+                child: defaultText(text: 'Please select Team Member'),
+              )
+            : dateFlag
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : screens[screenIndex],
       ),
     );
   }
@@ -100,5 +215,33 @@ class _KhademHomeState extends State<KhademHome> {
         MaterialPageRoute(
           builder: (context) => Registration(),
         ));
+  }
+
+  void getTeamUsers() {
+    teamId = CacheHelper.getData(key: 'teamId');
+    setState(() {});
+    firebaseReposatory.getTeamUsers().then((value) {
+      for (int i = 0; i < value.docs.length; i++) {
+        // userList.add(value.docs[i].data());
+        names.add(
+            "${value.docs[i].data()['firstName']} ${value.docs[i].data()['lastName']}");
+        ids.addAll({
+          "${value.docs[i].data()['firstName']} ${value.docs[i].data()['lastName']}":
+              value.docs[i].data()['id'],
+        });
+      }
+      setState(() {});
+    });
+  }
+
+  /// called whenever a selection changed on the date picker widget.
+  void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
+    setState(() {
+      if (args.value is PickerDateRange) {
+        startDate = DateFormat('yyyy-MM-dd').format(args.value.startDate);
+        endDate = DateFormat('yyyy-MM-dd')
+            .format(args.value.endDate ?? args.value.startDate);
+      }
+    });
   }
 }

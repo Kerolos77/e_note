@@ -6,8 +6,8 @@ import 'package:e_note/presentation/screens/users/makhdom/makhdom_home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../business_logic/cubit/regidtration_cubit/registration_cubit.dart';
-import '../../business_logic/cubit/regidtration_cubit/registration_states.dart';
+import '../../business_logic/cubit/regidtration/registration_cubit.dart';
+import '../../business_logic/cubit/regidtration/registration_states.dart';
 import '../../data/local/cache_helper.dart';
 import '../widgets/global/logo.dart';
 import '../widgets/global/toast.dart';
@@ -31,8 +31,8 @@ class Registration extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // emailController.text = 'david.ashraf@gmail.com';
-    // passwordController.text = '12345678';
+    emailController.text = 'david.ashraf@gmail.com';
+    passwordController.text = '12345678';
     // emailController.text = 'manaheg@gmail.com';
     // passwordController.text = '1WP935UR';
     // emailController.text = 'attendance@gmail.com';

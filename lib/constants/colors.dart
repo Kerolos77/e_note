@@ -6,17 +6,17 @@ class ConstColors {
   static const Color white = Color(0xffe1e8eb);
   static const Color green = Color.fromRGBO(26, 188, 0, 0.8313725490196079);
 
-  static const MaterialColor _materialColorGreen =
+  static const MaterialColor materialColorGreen =
       MaterialColor(0x1ABC00D4, <int, Color>{
-    50: Color(0x1ABC00D4),
-    100: Color(0x1ABC00D4),
-    200: Color(0x1ABC00D4),
-    300: Color(0x1ABC00D4),
-    400: Color(0x1ABC00D4),
-    500: Color(0x1ABC00D4),
-    600: Color(0x1ABC00D4),
-    700: Color(0x1ABC00D4),
-    800: Color(0x1ABC00D4),
-    900: Color(0x1ABC00D4),
+    50: Color.fromRGBO(26, 188, 0, 0.6274509803921569),
+    100: Color.fromRGBO(26, 188, 0, 0.6274509803921569),
+    200: Color.fromRGBO(26, 188, 0, 0.6274509803921569),
+    300: Color.fromRGBO(26, 188, 0, 0.6274509803921569),
+    400: Color.fromRGBO(26, 188, 0, 0.6274509803921569),
+    500: Color.fromRGBO(26, 188, 0, 0.6274509803921569),
+    600: Color.fromRGBO(26, 188, 0, 0.6274509803921569),
+    700: Color.fromRGBO(26, 188, 0, 0.6274509803921569),
+    800: Color.fromRGBO(26, 188, 0, 0.6274509803921569),
+    900: Color.fromRGBO(26, 188, 0, 0.6274509803921569),
   });
 }
