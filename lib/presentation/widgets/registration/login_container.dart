@@ -50,7 +50,7 @@ Widget loginContainer({
             builder: (BuildContext context) => defaultButton(
                 width: MediaQuery.of(context).size.width,
                 text: "Login",
-                onTap: onTap),
+                onPressed: onTap),
             fallback: (BuildContext context) => const Center(
               child: CircularProgressIndicator(),
             ),

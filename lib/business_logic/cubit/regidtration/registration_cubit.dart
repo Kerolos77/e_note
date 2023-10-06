@@ -13,10 +13,10 @@ class RegistrationCubit extends Cubit<RegistrationState> {
 
   bool registrationFlag = true;
   FirebaseReposatory firebaseReposatory = FirebaseReposatory();
-  bool envFlag = true;
+  bool genderFlag = true;
 
   void changeEnvFlag(flag) {
-    envFlag = flag;
+    genderFlag = flag;
     emit(ChangeEnvState());
   }
 
@@ -26,14 +26,14 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   }
 
   signUp({
-    required String firstName,
-    required String lastName,
+    required String fullName,
     required String email,
     required String password,
     required String gender,
     required String birthDate,
     required String teamId,
     required String userType,
+    required String phone,
   }) async {
     emit(SignUpLoadingRegistrationState());
     firebaseReposatory
@@ -43,15 +43,15 @@ class RegistrationCubit extends Cubit<RegistrationState> {
                 {
                   firebaseReposatory
                       .createUser(
-                          userId: value.user!.uid,
-                          firstName: firstName,
-                          lastName: lastName,
-                          email: email,
-                          password: password,
-                          gender: gender,
-                          birthDate: birthDate,
-                          teamId: teamId,
-                          userType: userType)
+                      userId: value.user!.uid,
+                      fullName: fullName,
+                      phone: phone,
+                      email: email,
+                      password: password,
+                      gender: gender,
+                      birthDate: birthDate,
+                      teamId: teamId,
+                      userType: userType)
                       .then((value) {
                     CacheHelper.putData(key: 'name', value: '');
                     CacheHelper.putData(key: 'email', value: '');

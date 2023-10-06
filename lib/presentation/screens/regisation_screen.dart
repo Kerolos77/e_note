@@ -1,14 +1,12 @@
-import 'package:e_note/presentation/screens/users/admin/attendance.dart';
-import 'package:e_note/presentation/screens/users/admin/manaheg.dart';
-import 'package:e_note/presentation/screens/users/admin/marathon/marathon.dart';
-import 'package:e_note/presentation/screens/users/khadem/khadem_home.dart';
 import 'package:e_note/presentation/screens/users/makhdom/makhdom_home.dart';
+import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../business_logic/cubit/regidtration/registration_cubit.dart';
 import '../../business_logic/cubit/regidtration/registration_states.dart';
 import '../../data/local/cache_helper.dart';
+import '../widgets/global/default_text/default_text.dart';
 import '../widgets/global/logo.dart';
 import '../widgets/global/toast.dart';
 import '../widgets/registration/login_container.dart';
@@ -21,26 +19,21 @@ class Registration extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   TextEditingController birthDateController = TextEditingController();
   TextEditingController teamIdController = TextEditingController();
 
+  TextEditingController otpController = TextEditingController();
+  EmailOTP emailOTP = EmailOTP();
   var formKey = GlobalKey<FormState>();
   bool flag = false;
+  bool otpFlag = false;
 
   @override
   Widget build(BuildContext context) {
-    emailController.text = 'david.ashraf@gmail.com';
-    passwordController.text = '12345678';
-    // emailController.text = 'manaheg@gmail.com';
-    // passwordController.text = '1WP935UR';
-    // emailController.text = 'attendance@gmail.com';
-    // passwordController.text = 'THQFJNWQ';
-    // emailController.text = 'kerolos.khadem@gmail.com';
+    // emailController.text = 'david.ashraf@gmail.com';
     // passwordController.text = '12345678';
-    // emailController.text = 'marathon@gmail.com';
-    // passwordController.text = 'LKFFO26Z';
     // confirmPasswordController.text = '12345678';
     // firstNameController.text = 'david';
     // lastNameController.text = 'ashraf';
@@ -61,41 +54,6 @@ class Registration extends StatelessWidget {
             );
           }
           if (state is LoginSuccessRegistrationState) {
-            if (emailController.text == 'manaheg@gmail.com') {
-              CacheHelper.putData(key: "user", value: 'manaheg').then((value) {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Manaheg(),
-                    ));
-              });
-            } else if (emailController.text == 'marathon@gmail.com') {
-              CacheHelper.putData(key: "user", value: 'marathon').then((value) {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Marathon(),
-                    ));
-              });
-            } else if (emailController.text == 'attendance@gmail.com') {
-              CacheHelper.putData(key: "user", value: 'attendance')
-                  .then((value) {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Attendance(),
-                    ));
-              });
-            } else if (emailController.text.contains('.khadem')) {
-              CacheHelper.putData(key: 'userType', value: 'khadem');
-              CacheHelper.putData(key: "user", value: state.uid).then((value) {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const KhademHome(),
-                    ));
-              });
-            } else {
               CacheHelper.putData(key: 'userType', value: 'makhdom');
               CacheHelper.putData(key: "user", value: state.uid).then((value) {
                 Navigator.pushReplacement(
@@ -104,7 +62,7 @@ class Registration extends StatelessWidget {
                       builder: (context) => const MakhdomHome(),
                     ));
               });
-            }
+
             flag = false;
             showToast(
               message: "you are welcome",
@@ -195,55 +153,134 @@ class Registration extends StatelessWidget {
                                                 passwordController:
                                                     passwordController)
                                             : signUpContainer(
-                                                formKey: formKey,
+                                          formKey: formKey,
                                                 flag: flag,
-                                                onTap: () {
-                                                  if (formKey.currentState!
-                                                      .validate()) {
-                                                    cub.signUp(
-                                                      email:
+                                                onPressed: () {
+                                                  print('-------1');
+                                                  if (otpFlag) {
+                                                    if (formKey.currentState!
+                                                        .validate()) {
+                                                      cub.signUp(
+                                                          phone: phoneController
+                                                              .text,
+                                                          email: emailController
+                                                              .text,
+                                                          password:
+                                                              passwordController
+                                                                  .text,
+                                                          fullName:
+                                                              fullNameController
+                                                                  .text,
+                                                          gender: cub.genderFlag
+                                                              ? 'Female'
+                                                              : 'Male',
+                                                          birthDate:
+                                                              birthDateController
+                                                                  .text,
+                                                          teamId:
+                                                              teamIdController
+                                                                  .text,
+                                                          userType: 'khadem');
+                                                    }
+                                                  } else {
+                                                    showToast(
+                                                        message:
+                                                            'please Verify Your Email');
+                                                  }
+                                                },
+                                                verifyOnPressed: () async {
+                                                  emailOTP.setConfig(
+                                                      appEmail:
+                                                          "me@rohitchouhan.com",
+                                                      appName: "Email OTP",
+                                                      userEmail:
                                                           emailController.text,
-                                                      password:
-                                                          passwordController
-                                                              .text,
-                                                      firstName:
-                                                          firstNameController
-                                                              .text,
-                                                      lastName:
-                                                          lastNameController
-                                                              .text,
-                                                      gender: cub.envFlag
-                                                          ? 'Female'
-                                                          : 'Male',
-                                                      birthDate:
-                                                          birthDateController
-                                                              .text,
-                                                      teamId:
-                                                          teamIdController.text,
-                                                      userType: emailController
-                                                              .text
-                                                              .contains(
-                                                                  '.khadem')
-                                                          ? 'khadem'
-                                                          : 'user',
-                                                    );
+                                                      otpLength: 6,
+                                                      otpType:
+                                                          OTPType.digitsOnly);
+                                                  if (await emailOTP
+                                                          .sendOTP() ==
+                                                      true) {
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return Dialog(
+                                                            child: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: [
+                                                                Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                              .all(
+                                                                          8.0),
+                                                                  child: TextFormField(
+                                                                      onTap: () {
+                                                                        otpController
+                                                                            .clear();
+                                                                      },
+                                                                      controller: otpController,
+                                                                      decoration: const InputDecoration(hintText: "Enter OTP")),
+                                                                ),
+                                                                defaultText(
+                                                                    text:
+                                                                        'we sent you an email please enter the OTP',
+                                                                    size: 10),
+                                                                ElevatedButton(
+                                                                    onPressed:
+                                                                        () async {
+                                                                      if (await emailOTP.verifyOTP(
+                                                                              otp: otpController.text) ==
+                                                                          true) {
+                                                                        Navigator.of(context)
+                                                                            .pop();
+                                                                        ScaffoldMessenger.of(context)
+                                                                            .showSnackBar(const SnackBar(
+                                                                          content:
+                                                                              Text("Email is verified"),
+                                                                        ));
+                                                                        otpFlag =
+                                                                            true;
+                                                                      } else {
+                                                                        otpFlag =
+                                                                            false;
+                                                                        otpController.text =
+                                                                            'Invaled OTP';
+                                                                      }
+                                                                    },
+                                                                    child: const Text(
+                                                                        "Verify")),
+                                                              ],
+                                                            ),
+                                                          );
+                                                        });
+                                                  } else {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                            const SnackBar(
+                                                      content: Text(
+                                                          "Oops, OTP send failed"),
+                                                    ));
                                                   }
                                                 },
                                                 onToggle: (value) {
                                                   cub.changeEnvFlag(value);
                                                 },
-                                                state: cub.envFlag,
+                                                state: cub.genderFlag,
                                                 context: context,
+                                                phoneController:
+                                                    phoneController,
                                                 emailController:
                                                     emailController,
                                                 passwordController:
                                                     passwordController,
                                                 confirmPasswordController:
                                                     confirmPasswordController,
-                                                firstNameController:
-                                                    firstNameController,
-                                                lastNameController:
-                                                    lastNameController,
+                                                fullNameController:
+                                                    fullNameController,
                                                 birthDateController:
                                                     birthDateController,
                                                 teamIdController:

@@ -1,4 +1,4 @@
-import 'package:e_note/presentation/widgets/global/default_text/default_text.dart';
+import 'package:e_note/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -15,45 +15,43 @@ Widget defaultTextField({
   Color iconColor = Colors.black,
   var maxLines = 1,
 }) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: defaultText(text: text, size: 14)),
-      TextFormField(
-        readOnly: readOnly,
-        controller: control,
-        keyboardType: type,
-        obscureText: obscure,
-        onChanged: onchange,
-        onTap: onTape,
-        validator: validate,
-        maxLines: maxLines,
-        onFieldSubmitted: onSubmit,
-        cursorColor: Colors.black,
-        style: GoogleFonts.roboto(fontSize: 14, color: Colors.black),
-        decoration: InputDecoration(
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5.0),
-            borderSide: const BorderSide(
-              color: Color.fromRGBO(147, 147, 147, 1),
-              width: 1.0,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5.0),
-            borderSide: const BorderSide(
-              color: Color.fromRGBO(147, 147, 147, 1),
-              width: 1.0,
-            ),
-          ),
-          errorStyle: const TextStyle(
-            fontSize: 10,
-            color: Colors.grey,
-          ),
+  return TextFormField(
+    readOnly: readOnly,
+    controller: control,
+    keyboardType: type,
+    obscureText: obscure,
+    onChanged: onchange,
+    onTap: onTape,
+    validator: validate,
+    maxLines: maxLines,
+    onFieldSubmitted: onSubmit,
+    cursorColor: Colors.black,
+    style: GoogleFonts.roboto(fontSize: 12, color: Colors.black),
+    decoration: InputDecoration(
+      contentPadding:
+          const EdgeInsets.only(top: 0, bottom: 0, left: 10, right: 10),
+      labelText: text,
+      labelStyle: GoogleFonts.roboto(
+          fontSize: 10, color: Colors.black, fontWeight: FontWeight.w500),
+      focusedBorder: OutlineInputBorder(
+        gapPadding: 1.0,
+        borderRadius: BorderRadius.circular(5.0),
+        borderSide: const BorderSide(
+          color: ConstColors.green,
+          width: 1.0,
         ),
       ),
-    ],
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(5.0),
+        borderSide: const BorderSide(
+          color: ConstColors.green,
+          width: 1.0,
+        ),
+      ),
+      errorStyle: const TextStyle(
+        fontSize: 10,
+        color: ConstColors.green,
+      ),
+    ),
   );
 }

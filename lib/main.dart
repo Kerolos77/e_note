@@ -13,6 +13,7 @@ import 'data/local/cache_helper.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FirebaseReposatory.initFirebase();
+
   await FirebaseFCM().initNotifications();
   Bloc.observer = Observer();
   // Pass all uncaught "fatal" errors from the framework to Crashlytics
@@ -55,6 +56,9 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
 
   // This widget is the root of your application.
   @override

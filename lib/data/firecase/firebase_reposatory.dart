@@ -20,17 +20,17 @@ class FirebaseReposatory {
 
   Future<void> createUser({
     required String userId,
-    required String firstName,
-    required String lastName,
+    required String fullName,
     required String email,
     required String password,
     required String gender,
     required String birthDate,
     required String teamId,
     required String userType,
+    required String phone,
   }) async {
-    UserModel userModel = UserModel(firstName, lastName, email, userId,
-        password, gender, birthDate, teamId, userType);
+    UserModel userModel = UserModel(fullName, email, userId, phone, password,
+        gender, birthDate, teamId, userType);
     return firebase.collection('users').doc(userId).set(userModel.toMap());
   }
 

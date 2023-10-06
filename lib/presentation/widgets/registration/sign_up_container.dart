@@ -12,13 +12,14 @@ Widget signUpContainer({
   required TextEditingController emailController,
   required TextEditingController passwordController,
   required TextEditingController confirmPasswordController,
-  required TextEditingController firstNameController,
-  required TextEditingController lastNameController,
+  required TextEditingController fullNameController,
   required TextEditingController birthDateController,
   required TextEditingController teamIdController,
-  required GestureTapCallback onTap,
+  required TextEditingController phoneController,
+  required void Function()? onPressed,
   required BuildContext context,
   required void Function(bool) onToggle,
+  required void Function()? verifyOnPressed,
   required bool state,
   required Key formKey,
   required bool flag,
@@ -29,62 +30,76 @@ Widget signUpContainer({
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: defaultTextField(
-                    control: firstNameController,
-                    text: 'First Name',
-                    type: TextInputType.name,
-                    validate: (value) {
-                      if (value.isEmpty) {
-                        return 'Please enter your first name';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  width: 17,
-                ),
-                Expanded(
-                  child: defaultTextField(
-                    control: lastNameController,
-                    text: 'Last Name',
-                    type: TextInputType.name,
-                    validate: (value) {
-                      if (value.isEmpty) {
-                        return 'Please enter your last name';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 30,
-            ),
-            defaultText(text: 'Gender'),
+            defaultText(text: 'Gender', size: 10),
             SizedBox(
               height: MediaQuery.of(context).size.height / 50,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                defaultText(text: 'Male', size: 20),
+                defaultText(text: 'Male', size: 14, color: ConstColors.male),
                 FlutterSwitch(
                     value: state,
-                    borderRadius: 20.0,
-                    padding: 5.0,
-                    activeColor: ConstColors.grey,
-                    inactiveColor: ConstColors.grey,
+                    borderRadius: 25.0,
+                    padding: 2.0,
+                    height: 25,
+                    activeColor: ConstColors.female,
+                    inactiveColor: ConstColors.male,
                     onToggle: onToggle),
-                defaultText(text: 'Female', size: 20),
+                defaultText(
+                    text: 'Female', size: 14, color: ConstColors.female),
               ],
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height / 30,
+            ),
+            defaultTextField(
+              control: fullNameController,
+              text: 'Full Name',
+              type: TextInputType.name,
+              validate: (value) {
+                if (value.isEmpty) {
+                  return 'Please enter your Full name';
+                }
+                return null;
+              },
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 30,
+            ),
+            defaultTextField(
+              control: phoneController,
+              text: 'WhatsApp Number',
+              type: TextInputType.phone,
+              validate: (value) {
+                if (value.isEmpty || value.toString().length != 11) {
+                  return 'Please enter a valid WhatsApp Number';
+                }
+                return null;
+              },
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 30,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                defaultTextField(
+                  control: emailController,
+                  text: 'E-mail',
+                  type: TextInputType.emailAddress,
+                  validate: (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter your email';
+                    }
+                    return null;
+                  },
+                ),
+                TextButton(
+                    onPressed: verifyOnPressed,
+                    child: defaultText(
+                        text: 'verify Email', color: Colors.blue, size: 12)),
+              ],
             ),
             Row(
               children: [
@@ -98,7 +113,7 @@ Widget signUpContainer({
                       showDatePicker(
                         context: context,
                         initialDate: DateTime.now(),
-                        firstDate: DateTime(1990),
+                        firstDate: DateTime(1950),
                         lastDate: DateTime.now(),
                         builder: (context, child) {
                           return Theme(
@@ -121,10 +136,9 @@ Widget signUpContainer({
                         },
                       ).then((date) {
                         birthDateController.text =
-                            DateFormat('yyyy - MM - dd').format(date!);
+                            DateFormat('yyyy-MM-dd').format(date!);
                       }).catchError((error) {
-                        birthDateController.text =
-                            DateFormat('yyyy - MM - dd').format(DateTime.now());
+                        birthDateController.text = '';
                       });
                     },
                     validate: (value) {
@@ -146,26 +160,14 @@ Widget signUpContainer({
                     validate: (value) {
                       if (value.isEmpty) {
                         return 'Please enter your Team ID';
+                      } else if (value.toString().length < 8) {
+                        return 'Please enter correct Team ID';
                       }
                       return null;
                     },
                   ),
                 ),
               ],
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 30,
-            ),
-            defaultTextField(
-              control: emailController,
-              text: 'E-mail',
-              type: TextInputType.emailAddress,
-              validate: (value) {
-                if (value.isEmpty) {
-                  return 'Please enter your email';
-                }
-                return null;
-              },
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height / 30,
@@ -205,7 +207,7 @@ Widget signUpContainer({
               builder: (BuildContext context) => defaultButton(
                   width: MediaQuery.of(context).size.width,
                   text: "Sign Up",
-                  onTap: onTap),
+                  onPressed: onPressed),
               fallback: (BuildContext context) => const Center(
                 child: CircularProgressIndicator(),
               ),

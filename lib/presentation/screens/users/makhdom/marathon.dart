@@ -194,7 +194,7 @@ class _MakhdomMarathonState extends State<MakhdomMarathon> {
                           ),
                           defaultButton(
                             text: 'Save',
-                            onTap: () {
+                            onPressed: () {
                               if (answerController.text != '') {
                                 firebaseReposatory
                                     .createUserMarathonAnswer(

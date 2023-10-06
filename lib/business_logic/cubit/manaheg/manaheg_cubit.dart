@@ -41,19 +41,20 @@ class ManahegCubit extends Cubit<ManahegStates> {
 
   Future<void> uploadPic() async {
     await FilePicker.platform.pickFiles().then((value) async {
-      emit(UploadFileLoadingManahegState());
-      File file = File(value!.paths[0]!);
-      Reference reference = _storage.ref().child(file.path.split('/').last);
-      UploadTask uploadTask = reference.putFile(file);
-      await uploadTask.whenComplete(() async {
-        var url = await reference.getDownloadURL();
-        getMnaheg();
-        emit(UploadFileSuccessManahegState());
-        // CacheHelper.putData(key: name, value: url.toString());
-      }).catchError((error) {
-        emit(UploadFileErrorManahegState(error.toString()));
-        print(onError);
-      });
+      if (value != null) {
+        emit(UploadFileLoadingManahegState());
+        File file = File(value!.paths[0]!);
+        Reference reference = _storage.ref().child(file.path.split('/').last);
+        UploadTask uploadTask = reference.putFile(file);
+
+        await uploadTask.whenComplete(() async {
+          getMnaheg();
+          emit(UploadFileSuccessManahegState());
+          // CacheHelper.putData(key: name, value: url.toString());
+        }).catchError((error) {
+          emit(UploadFileErrorManahegState(error.toString()));
+        });
+      }
     });
   }
 

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 class ConstColors {
   static const Color yellow = Color(0xffFFC107);
+  static const Color male = Color(0xff37b3cc);
+  static const Color female = Color(0xfff37ea7);
   static const Color grey = Color.fromRGBO(111, 111, 111, 1);
   static const Color white = Color(0xffe1e8eb);
   static const Color green = Color.fromRGBO(26, 188, 0, 0.8313725490196079);

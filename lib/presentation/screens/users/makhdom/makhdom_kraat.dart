@@ -360,7 +360,7 @@ class _MakhdomKraatState extends State<MakhdomKraat> {
               padding: const EdgeInsets.only(left: 5, right: 5),
               child: defaultButton(
                 text: 'SAVE',
-                onTap: () {
+                onPressed: () {
                   var date = CacheHelper.getData(key: 'date');
                   if (date != DateFormat('yyyy-MM-dd').format(DateTime.now())) {
                     createUserKraat(
