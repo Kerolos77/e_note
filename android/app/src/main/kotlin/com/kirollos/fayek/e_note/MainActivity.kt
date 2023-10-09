@@ -1,4 +1,4 @@
-package com.example.e_note
+package com.kirollos.fayek.e_note
 
 import io.flutter.embedding.android.FlutterActivity
 
