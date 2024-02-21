@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:scan/scan.dart';
 
+import '../../../../constants/colors.dart';
+
 class MakhdomAttend extends StatefulWidget {
   const MakhdomAttend({super.key});
 
@@ -38,20 +40,20 @@ class _MakhdomAttendState extends State<MakhdomAttend> {
   @override
   Widget build(BuildContext context) {
           return Scaffold(
-            backgroundColor: Colors.white,
-            body: DoubleBackToCloseApp(
-              snackBar: const SnackBar(
-                content: Text('Tap back again to leave'),
-              ),
-              child: SafeArea(
-                child: Center(
+            backgroundColor: ConstColors.white,
+      body: DoubleBackToCloseApp(
+        snackBar: const SnackBar(
+          content: Text('Tap back again to leave'),
+        ),
+        child: SafeArea(
+          child: Center(
             child: constUid != null || constUid != ''
                 ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       defaultText(
                           text: 'Scan This to Attend',
-                          color: Colors.green,
+                          color: ConstColors.primaryColor,
                           size: 20),
                       const SizedBox(
                         height: 20,
@@ -64,8 +66,8 @@ class _MakhdomAttendState extends State<MakhdomAttend> {
                     ],
                   )
                 : defaultText(
-                    text: 'Refresh The App To Get Qr Code',
-                    color: Colors.green,
+                      text: 'Refresh The App To Get Qr Code',
+                    color: ConstColors.primaryColor,
                     size: 20),
           ),
         ),

@@ -2,11 +2,13 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 
 import '../global/default_button.dart';
+import '../global/default_loading.dart';
 import '../global/default_text_field.dart';
 
 Widget loginContainer({
   required TextEditingController emailController,
   required TextEditingController passwordController,
+  required TextEditingController payIdController,
   required GestureTapCallback onTap,
   required Key formKey,
   required BuildContext context,
@@ -17,7 +19,7 @@ Widget loginContainer({
     child: SizedBox(
       child: Column(
         children: [
-          defaultTextField(
+          DefaultTextField(
             control: emailController,
             text: 'E-mail',
             type: TextInputType.emailAddress,
@@ -31,11 +33,11 @@ Widget loginContainer({
           SizedBox(
             height: MediaQuery.of(context).size.height / 30,
           ),
-          defaultTextField(
+          DefaultTextField(
+              isPassword: true,
               control: passwordController,
               text: 'Password',
               type: TextInputType.emailAddress,
-              obscure: true,
               validate: (value) {
                 if (value.isEmpty) {
                   return 'Please enter your password';
@@ -51,9 +53,7 @@ Widget loginContainer({
                 width: MediaQuery.of(context).size.width,
                 text: "Login",
                 onPressed: onTap),
-            fallback: (BuildContext context) => const Center(
-              child: CircularProgressIndicator(),
-            ),
+            fallback: (BuildContext context) => defaultLoading(),
           ),
         ],
       ),

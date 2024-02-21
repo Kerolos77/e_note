@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_note/data/models/kraat_model.dart';
-import 'package:e_note/data/models/marathon_model.dart';
 import 'package:e_note/data/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -28,22 +27,22 @@ class FirebaseReposatory {
     required String teamId,
     required String userType,
     required String phone,
+    required String payId,
   }) async {
-    UserModel userModel = UserModel(fullName, email, userId, phone, password,
-        gender, birthDate, teamId, userType);
+    UserModel userModel = UserModel(
+        fullName,
+        email,
+        userId,
+        phone,
+        password,
+        gender,
+        birthDate,
+        teamId,
+        userType,
+        payId);
     return firebase.collection('users').doc(userId).set(userModel.toMap());
   }
 
-  Future<void> createMarathon({
-    required String id,
-    required String title,
-    required String content,
-    required String modifiedTime,
-  }) async {
-    MarathonModel marathonModel =
-        MarathonModel(id, title, content, modifiedTime);
-    return firebase.collection('marathon').doc(id).set(marathonModel.toMap());
-  }
 
   Future<UserCredential> signUp({
     required String email,
@@ -67,57 +66,40 @@ class FirebaseReposatory {
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getUserData(
       {required String userId}) {
-    return firebase.collection('users').doc(userId).get();
-  }
-
-  Future<QuerySnapshot<Map<String, dynamic>>> getUserAttendData(
-      {required String userId}) {
-    return firebase.collection('users').doc(userId).collection('attend').get();
-  }
-
-  Future<QuerySnapshot<Map<String, dynamic>>> getKraatData(
-      {required String userId}) {
-    return firebase.collection('users').doc(userId).collection('kraat').get();
-  }
-
-  Future<QuerySnapshot<Map<String, dynamic>>> getUserMarathonAnswerData(
-      {required String? userId}) {
     return firebase
         .collection('users')
         .doc(userId)
+        .get();
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getUserAttendData() {
+    return firebase
+        .collection('users')
+        .doc(constUid)
+        .collection('attend')
+        .get();
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getKraatData() {
+    return firebase.collection('users').doc(constUid).collection('kraat').get();
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getUserMarathonAnswerData() {
+    return firebase
+        .collection('users')
+        .doc(constUid)
         .collection('marathon')
         .get();
   }
 
   Future<QuerySnapshot<Map<String, dynamic>>> getMarathonData() {
-    return firebase.collection('marathon').get();
-  }
-
-  Future<QuerySnapshot<Map<String, dynamic>>> getTeamUsers() {
-    return firebase
-        .collection('users')
-        .where("teamId", isEqualTo: teamId)
-        .where('email', isNotEqualTo: constEmail)
-        .get();
-  }
-
-  Future<void> createUserAttend({
-    required String? userId,
-  }) async {
-    return firebase
-        .collection('users')
-        .doc(userId)
-        .collection('attend')
-        .doc(DateFormat('yyyy-MM-dd').format(DateTime.now()))
-        .set({
-      'lecture 1': '',
-      'lecture 2': '',
-    });
+    return firebase.collection('admin').doc(payId).collection('marathon').get();
   }
 
   Future<void> createUserMarathonAnswer({
     required String marathonId,
     required String answer,
+    required String comment,
   }) async {
     return firebase
         .collection('users')
@@ -126,23 +108,8 @@ class FirebaseReposatory {
         .doc(marathonId)
         .set({
       'answer': answer,
-      'comment': '',
-      'modifiedTime': DateTime.now().toString(),
-    });
-  }
-
-  Future<void> updateUserMarathonAnswer({
-    required String comment,
-    required String marathonId,
-    required String userId,
-  }) async {
-    return firebase
-        .collection('users')
-        .doc(userId)
-        .collection('marathon')
-        .doc(marathonId)
-        .update({
       'comment': comment,
+      'modifiedTime': DateTime.now().toString(),
     });
   }
 
@@ -185,20 +152,4 @@ class FirebaseReposatory {
         .doc(DateFormat('yyyy-MM-dd').format(DateTime.now()))
         .set(kraatModel.toMap());
   }
-
-  Future<void> updateUserAttend({
-    required String? userId,
-    required String lectureNum,
-  }) async {
-    return firebase
-        .collection('users')
-        .doc(userId)
-        .collection('attend')
-        .doc(DateFormat('yyyy-MM-dd').format(DateTime.now()))
-        .update({
-      'lecture $lectureNum': DateFormat('hh : mma').format(DateTime.now())
-    });
-  }
-
-
 }

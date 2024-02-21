@@ -13,7 +13,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  int splashTime = 0;
+  int splashTime = 4;
 
   @override
   void initState() {
@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
         Widget widget;
         if (constUid != null && constUid != '') {
-            widget = const MakhdomHome();
+          widget = const MakhdomHome();
         } else {
           widget = Registration();
         }

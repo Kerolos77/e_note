@@ -1,12 +1,13 @@
 import 'package:e_note/data/local/cache_helper.dart';
 import 'package:e_note/presentation/widgets/global/default_button.dart';
+import 'package:e_note/presentation/widgets/global/default_snack_bar.dart';
 import 'package:e_note/presentation/widgets/global/default_text/default_text.dart';
-import 'package:e_note/presentation/widgets/global/toast.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_switch/flutter_switch.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../constants/colors.dart';
 import '../../../../data/firecase/firebase_reposatory.dart';
+import '../../../widgets/keraat/keraat_row.dart';
 
 class MakhdomKraat extends StatefulWidget {
   const MakhdomKraat({super.key});
@@ -39,322 +40,119 @@ class _MakhdomKraatState extends State<MakhdomKraat> {
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
               padding: const EdgeInsets.all(0.0),
               child: defaultText(
                 text: '..سجل قراتك اليوم',
-                size: 35.0,
-                color: Colors.grey,
+                size: 20.0,
+                color: ConstColors.grey,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FlutterSwitch(
-                      value: bakerState,
-                      borderRadius: 20.0,
-                      padding: 5.0,
-                      activeColor: Colors.green,
-                      inactiveColor: Colors.grey,
-                      onToggle: (value) {
-                        bakerState = value;
-                        setState(() {});
-                      }),
-                  defaultText(
-                    text: 'باكر',
-                    size: 25.0,
-                  ),
-                ],
-              ),
+            keraatRow(
+              text: 'باكر',
+              onToggle: (value) {
+                bakerState = value;
+                setState(() {});
+              },
+              state: bakerState,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FlutterSwitch(
-                      value: taltaState,
-                      borderRadius: 20.0,
-                      padding: 5.0,
-                      activeColor: Colors.green,
-                      inactiveColor: Colors.grey,
-                      onToggle: (value) {
-                        taltaState = value;
-                        setState(() {});
-                      }),
-                  defaultText(
-                    text: 'تالته',
-                    size: 25.0,
-                  ),
-                ],
-              ),
+            keraatRow(
+              text: 'تالته',
+              onToggle: (value) {
+                taltaState = value;
+                setState(() {});
+              },
+              state: taltaState,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FlutterSwitch(
-                      value: sataState,
-                      borderRadius: 20.0,
-                      padding: 5.0,
-                      activeColor: Colors.green,
-                      inactiveColor: Colors.grey,
-                      onToggle: (value) {
-                        sataState = value;
-                        setState(() {});
-                      }),
-                  defaultText(
-                    text: 'سادسه',
-                    size: 25.0,
-                  ),
-                ],
-              ),
+            keraatRow(
+              text: 'سادسه',
+              onToggle: (value) {
+                sataState = value;
+                setState(() {});
+              },
+              state: sataState,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FlutterSwitch(
-                      value: tas3aState,
-                      borderRadius: 20.0,
-                      padding: 5.0,
-                      activeColor: Colors.green,
-                      inactiveColor: Colors.grey,
-                      onToggle: (value) {
-                        tas3aState = value;
-                        setState(() {});
-                      }),
-                  defaultText(
-                    text: 'تاسعه',
-                    size: 25.0,
-                  ),
-                ],
-              ),
+            keraatRow(
+              text: 'تاسعه',
+              onToggle: (value) {
+                tas3aState = value;
+                setState(() {});
+              },
+              state: tas3aState,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FlutterSwitch(
-                      value: grobState,
-                      borderRadius: 20.0,
-                      padding: 5.0,
-                      activeColor: Colors.green,
-                      inactiveColor: Colors.grey,
-                      onToggle: (value) {
-                        grobState = value;
-                        setState(() {});
-                      }),
-                  defaultText(
-                    text: 'غروب',
-                    size: 25.0,
-                  ),
-                ],
-              ),
+            keraatRow(
+              text: 'غروب',
+              onToggle: (value) {
+                grobState = value;
+                setState(() {});
+              },
+              state: grobState,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FlutterSwitch(
-                      value: nomState,
-                      borderRadius: 20.0,
-                      padding: 5.0,
-                      activeColor: Colors.green,
-                      inactiveColor: Colors.grey,
-                      onToggle: (value) {
-                        nomState = value;
-                        setState(() {});
-                      }),
-                  defaultText(
-                    text: 'نوم',
-                    size: 25.0,
-                  ),
-                ],
-              ),
+            keraatRow(
+              text: 'نوم',
+              onToggle: (value) {
+                nomState = value;
+                setState(() {});
+              },
+              state: nomState,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FlutterSwitch(
-                      value: ertgalyBakerState,
-                      borderRadius: 20.0,
-                      padding: 5.0,
-                      activeColor: Colors.green,
-                      inactiveColor: Colors.grey,
-                      onToggle: (value) {
-                        ertgalyBakerState = value;
-                        setState(() {});
-                      }),
-                  defaultText(
-                    text: "ارتجالي باكر",
-                    size: 25.0,
-                  ),
-                ],
-              ),
+            keraatRow(
+              text: 'ارتجالي باكر',
+              onToggle: (value) {
+                ertgalyBakerState = value;
+                setState(() {});
+              },
+              state: ertgalyBakerState,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FlutterSwitch(
-                      value: ertgalyNomState,
-                      borderRadius: 20.0,
-                      padding: 5.0,
-                      activeColor: Colors.green,
-                      inactiveColor: Colors.grey,
-                      onToggle: (value) {
-                        ertgalyNomState = value;
-                        setState(() {});
-                      }),
-                  defaultText(
-                    text: 'ارتجالي نوم',
-                    size: 25.0,
-                  ),
-                ],
-              ),
+            keraatRow(
+              text: 'ارتجالي نوم',
+              onToggle: (value) {
+                ertgalyNomState = value;
+                setState(() {});
+              },
+              state: ertgalyNomState,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FlutterSwitch(
-                      value: odasState,
-                      borderRadius: 20.0,
-                      padding: 5.0,
-                      activeColor: Colors.green,
-                      inactiveColor: Colors.grey,
-                      onToggle: (value) {
-                        odasState = value;
-                        setState(() {});
-                      }),
-                  defaultText(
-                    text: 'قداس',
-                    size: 25.0,
-                  ),
-                ],
-              ),
+            keraatRow(
+              text: 'قداس',
+              onToggle: (value) {
+                odasState = value;
+                setState(() {});
+              },
+              state: odasState,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FlutterSwitch(
-                      value: tnawlState,
-                      borderRadius: 20.0,
-                      padding: 5.0,
-                      activeColor: Colors.green,
-                      inactiveColor: Colors.grey,
-                      onToggle: (value) {
-                        tnawlState = value;
-                        setState(() {});
-                      }),
-                  defaultText(
-                    text: 'تناول',
-                    size: 25.0,
-                  ),
-                ],
-              ),
+            keraatRow(
+              text: 'تناول',
+              onToggle: (value) {
+                tnawlState = value;
+                setState(() {});
+              },
+              state: tnawlState,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FlutterSwitch(
-                      value: aatrafState,
-                      borderRadius: 20.0,
-                      padding: 5.0,
-                      activeColor: Colors.green,
-                      inactiveColor: Colors.grey,
-                      onToggle: (value) {
-                        aatrafState = value;
-                        setState(() {});
-                      }),
-                  defaultText(
-                    text: 'اعتراف',
-                    size: 25.0,
-                  ),
-                ],
-              ),
+            keraatRow(
+              text: 'اعتراف',
+              onToggle: (value) {
+                aatrafState = value;
+                setState(() {});
+              },
+              state: aatrafState,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FlutterSwitch(
-                      value: oldBibleState,
-                      borderRadius: 20.0,
-                      padding: 5.0,
-                      activeColor: Colors.green,
-                      inactiveColor: Colors.grey,
-                      onToggle: (value) {
-                        oldBibleState = value;
-                        setState(() {});
-                      }),
-                  defaultText(
-                    text: 'عهد قديم',
-                    size: 25.0,
-                  ),
-                ],
-              ),
+            keraatRow(
+              text: 'عهد جديد',
+              onToggle: (value) {
+                newBibleState = value;
+                setState(() {});
+              },
+              state: newBibleState,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FlutterSwitch(
-                      value: newBibleState,
-                      borderRadius: 20.0,
-                      padding: 5.0,
-                      activeColor: Colors.green,
-                      inactiveColor: Colors.grey,
-                      onToggle: (value) {
-                        newBibleState = value;
-                        setState(() {});
-                      }),
-                  defaultText(
-                    text: 'عهد جديد',
-                    size: 25.0,
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FlutterSwitch(
-                      value: soomState,
-                      borderRadius: 20.0,
-                      padding: 5.0,
-                      activeColor: Colors.green,
-                      inactiveColor: Colors.grey,
-                      onToggle: (value) {
-                        soomState = value;
-                        setState(() {});
-                      }),
-                  defaultText(
-                    text: 'صوم',
-                    size: 25.0,
-                  ),
-                ],
-              ),
+            keraatRow(
+              text: 'صوم',
+              onToggle: (value) {
+                soomState = value;
+                setState(() {});
+              },
+              state: soomState,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 5, right: 5),
@@ -364,25 +162,24 @@ class _MakhdomKraatState extends State<MakhdomKraat> {
                   var date = CacheHelper.getData(key: 'date');
                   if (date != DateFormat('yyyy-MM-dd').format(DateTime.now())) {
                     createUserKraat(
-                      baker: bakerState,
-                      talta: taltaState,
-                      sata: sataState,
-                      tas3a: tas3aState,
-                      grob: grobState,
-                      noom: nomState,
-                      ertgalyBaker: ertgalyBakerState,
-                      ertgalyNom: ertgalyNomState,
-                      tnawel: tnawlState,
-                      odas: odasState,
-                      eatraf: aatrafState,
-                      soom: soomState,
-                      oldBible: oldBibleState,
-                      newBible: newBibleState,
-                    );
+                        baker: bakerState,
+                        talta: taltaState,
+                        sata: sataState,
+                        tas3a: tas3aState,
+                        grob: grobState,
+                        noom: nomState,
+                        ertgalyBaker: ertgalyBakerState,
+                        ertgalyNom: ertgalyNomState,
+                        tnawel: tnawlState,
+                        odas: odasState,
+                        eatraf: aatrafState,
+                        soom: soomState,
+                        oldBible: oldBibleState,
+                        newBible: newBibleState,
+                        context: context);
                   } else {
-                    showToast(
-                      message: 'لقد سجلت قراتك اليوم',
-                    );
+                    defaultSnackBar(
+                        message: 'لقد سجلت قراتك اليوم', context: context);
                   }
                 },
                 width: MediaQuery.of(context).size.width,
@@ -409,6 +206,7 @@ class _MakhdomKraatState extends State<MakhdomKraat> {
     required bool soom,
     required bool oldBible,
     required bool newBible,
+    required BuildContext context,
   }) {
     firebaseReposatory
         .createUserKraat(
@@ -430,11 +228,9 @@ class _MakhdomKraatState extends State<MakhdomKraat> {
         .then((value) {
       CacheHelper.putData(
           key: 'date', value: DateFormat('yyyy-MM-dd').format(DateTime.now()));
-      showToast(
-        message: 'Done',
-      );
+      defaultSnackBar(message: 'Done', context: context);
     }).catchError((onError) {
-      print(onError);
+      defaultSnackBar(message: onError, context: context);
     });
   }
 }

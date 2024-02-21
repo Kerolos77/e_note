@@ -18,6 +18,8 @@ class SignUpErrorRegistrationState extends RegistrationState {
 
 class LoginLoadingRegistrationState extends RegistrationState {}
 
+class UserTypeNotAllowedRegistrationState extends RegistrationState {}
+
 class LoginSuccessRegistrationState extends RegistrationState {
   late String uid;
 

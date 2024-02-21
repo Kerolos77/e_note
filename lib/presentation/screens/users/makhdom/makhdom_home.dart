@@ -1,11 +1,12 @@
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
+import 'package:e_note/constants/colors.dart';
 import 'package:e_note/presentation/screens/users/makhdom/makhdom_kraat.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../data/local/cache_helper.dart';
-import '../../../widgets/global/toast.dart';
+import '../../../widgets/global/default_snack_bar.dart';
 import '../../regisation_screen.dart';
 import 'makhdom_attend.dart';
 import 'makhdom_manaheg.dart';
@@ -31,17 +32,17 @@ class _MakhdomHomeState extends State<MakhdomHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: ConstColors.white,
         elevation: 0,
         actions: [
           IconButton(
             onPressed: () {
-              logout();
+              logout(context: context);
             },
             icon: const Icon(
               FontAwesomeIcons.signOutAlt,
               size: 20,
-              color: Colors.green,
+              color: ConstColors.primaryColor,
             ),
           )
         ],
@@ -80,8 +81,8 @@ class _MakhdomHomeState extends State<MakhdomHome> {
         backgroundColor: Colors.white,
         selectedFontSize: 0,
         currentIndex: screenIndex,
-        selectedItemColor: Colors.grey,
-        unselectedItemColor: Colors.green,
+        selectedItemColor: ConstColors.grey,
+        unselectedItemColor: ConstColors.primaryColor,
         onTap: (value) {
           setState(() {
             screenIndex = value;
@@ -98,11 +99,11 @@ class _MakhdomHomeState extends State<MakhdomHome> {
     );
   }
 
-  void logout() {
+  void logout({
+    required BuildContext context,
+  }) {
     FirebaseAuth.instance.signOut();
-    showToast(
-      message: 'Log out Successfully',
-    );
+    defaultSnackBar(message: 'Log out Successfully', context: context);
     CacheHelper.removeData(key: "user");
     Navigator.pushReplacement(
         context,

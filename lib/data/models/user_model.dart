@@ -8,9 +8,10 @@ class UserModel {
   late String birthDate;
   late String teamId;
   late String userType;
+  late String payId;
 
   UserModel(this.fullName, this.email, this.ID, this.phone, this.password,
-      this.gender, this.birthDate, this.teamId, this.userType);
+      this.gender, this.birthDate, this.teamId, this.userType, this.payId);
 
   UserModel.fromJson(Map<String, dynamic> json) {
     email = json['email'];
@@ -22,6 +23,7 @@ class UserModel {
     birthDate = json['birthDate'];
     teamId = json['teamId'];
     userType = json['userType'];
+    payId = json['payId'];
   }
 
   Map<String, dynamic> toMap() {
@@ -35,6 +37,7 @@ class UserModel {
       "birthDate": birthDate,
       "teamId": teamId,
       "userType": userType,
+      "payId": payId,
     };
   }
 }

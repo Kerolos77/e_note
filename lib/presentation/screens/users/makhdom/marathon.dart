@@ -1,12 +1,14 @@
 import 'dart:core';
 
-import 'package:e_note/constants/conestant.dart';
 import 'package:e_note/presentation/widgets/global/default_button.dart';
-import 'package:e_note/presentation/widgets/global/toast.dart';
+import 'package:e_note/presentation/widgets/global/default_snack_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../constants/colors.dart';
 import '../../../../data/firecase/firebase_reposatory.dart';
 import '../../../../data/models/marathon_answer_model.dart';
+import '../../../widgets/global/default_loading.dart';
 import '../../../widgets/global/default_text/default_text.dart';
 import '../../../widgets/global/default_text_field.dart';
 
@@ -21,6 +23,7 @@ class _MakhdomMarathonState extends State<MakhdomMarathon> {
   FirebaseReposatory firebaseReposatory = FirebaseReposatory();
   List<MarathonAnswerModel> filteredNotoes = [];
   bool sorted = false;
+  bool progressFlag = false;
   List<MarathonAnswerModel> sampleNotes = [];
 
   @override
@@ -53,36 +56,19 @@ class _MakhdomMarathonState extends State<MakhdomMarathon> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: defaultText(text: 'Marathon', size: 30),
-        actions: [
-          IconButton(
-              onPressed: () {
-                setState(() {
-                  filteredNotoes = sortNotesByModifiedTime(filteredNotoes);
-                });
-              },
-              padding: const EdgeInsets.all(0),
-              icon: const Icon(
-                Icons.sort,
-                color: Colors.green,
-              )),
-        ],
-      ),
-      body: Column(
-        children: [
-          TextField(
+        backgroundColor: ConstColors.white,
+        appBar: AppBar(
+          backgroundColor: ConstColors.white,
+          elevation: 0,
+          title: TextField(
             onChanged: onSearchTextChange,
-            style: const TextStyle(fontSize: 16, color: Colors.grey),
+            style: const TextStyle(fontSize: 16, color: ConstColors.grey),
             decoration: InputDecoration(
                 contentPadding: const EdgeInsets.symmetric(vertical: 12),
                 hintText: "Search ...",
-                hintStyle: const TextStyle(color: Colors.grey),
-                prefixIcon: const Icon(Icons.search, color: Colors.grey),
-                fillColor: Colors.white,
+                hintStyle: const TextStyle(color: ConstColors.grey),
+                prefixIcon: const Icon(Icons.search, color: ConstColors.grey),
+                fillColor: ConstColors.white,
                 filled: true,
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(50),
@@ -93,138 +79,185 @@ class _MakhdomMarathonState extends State<MakhdomMarathon> {
                   borderSide: const BorderSide(color: Colors.transparent),
                 )),
           ),
-          Expanded(
-              child: Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 8),
-            child: ListView.builder(
-              padding: const EdgeInsets.only(top: 30),
-              itemCount: filteredNotoes.length,
-              itemBuilder: (context, index) {
-                TextEditingController answerController =
-                    TextEditingController();
-                answerController.text = filteredNotoes[index].answer;
-                return Card(
-                    margin: const EdgeInsets.only(bottom: 20),
-                    color: Colors.greenAccent.shade100,
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ListTile(
-                            title: RichText(
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                              text: TextSpan(
-                                  text: '${filteredNotoes[index].title} \n',
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    height: 1.5,
-                                  ),
-                                  children: [
-                                    TextSpan(
-                                      text: filteredNotoes[index].content,
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 14,
-                                          height: 1.5),
-                                    )
-                                  ]),
-                            ),
-                            subtitle: Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Text(
-                                filteredNotoes[index].modifiedTime,
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  fontStyle: FontStyle.italic,
-                                  color: Colors.grey.shade800,
-                                ),
-                              ),
-                            ),
-                          ),
-                          filteredNotoes[index].comment != ''
-                              ? ListTile(
-                                  title: RichText(
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
-                                    text: TextSpan(
-                                        text: 'Comment \n',
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    filteredNotoes = sortNotesByModifiedTime(filteredNotoes);
+                  });
+                },
+                padding: const EdgeInsets.all(0),
+                icon: Icon(
+                  sorted
+                      ? FontAwesomeIcons.arrowDownWideShort
+                      : FontAwesomeIcons.arrowDownShortWide,
+                  color: ConstColors.primaryColor,
+                )),
+          ],
+        ),
+        body: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: filteredNotoes.isNotEmpty
+                  ? ListView.builder(
+                      itemCount: filteredNotoes.length,
+                      itemBuilder: (context, index) {
+                        TextEditingController answerController =
+                            TextEditingController();
+                        answerController.text = filteredNotoes[index].answer;
+                        return Card(
+                            color: Colors.greenAccent.shade100,
+                            elevation: 3,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ListTile(
+                                    title: RichText(
+                                      maxLines: 10,
+                                      overflow: TextOverflow.ellipsis,
+                                      text: TextSpan(
+                                          text:
+                                              '${filteredNotoes[index].title} \n',
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            height: 1.5,
+                                          ),
+                                          children: [
+                                            TextSpan(
+                                              text:
+                                                  filteredNotoes[index].content,
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 11,
+                                                height: 1.5,
+                                              ),
+                                            )
+                                          ]),
+                                    ),
+                                    subtitle: Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Text(
+                                        filteredNotoes[index].modifiedTime,
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.grey.shade800,
                                         ),
-                                        children: [
-                                          TextSpan(
-                                            text: filteredNotoes[index].comment,
-                                            style: const TextStyle(
-                                              color: Colors.red,
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 12,
-                                            ),
-                                          )
-                                        ]),
+                                      ),
+                                    ),
                                   ),
-                                )
-                              : const SizedBox(),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          defaultTextField(
-                              control: answerController,
-                              type: TextInputType.text,
-                              text: 'Type Your Answer'),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0, bottom: 8),
-                            child: Text(
-                              filteredNotoes[index].modifiedAnswerDate,
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontStyle: FontStyle.italic,
-                                color: Colors.grey.shade800,
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  DefaultTextField(
+                                      control: answerController,
+                                      type: TextInputType.multiline,
+                                      maxLines: null,
+                                      text: 'Type Your Answer'),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 8.0, bottom: 0),
+                                    child: Text(
+                                      filteredNotoes[index].modifiedAnswerDate,
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        fontStyle: FontStyle.italic,
+                                        color: Colors.grey.shade800,
+                                      ),
+                                    ),
+                                  ),
+                                  filteredNotoes[index].comment != ''
+                                      ? ListTile(
+                                          title: RichText(
+                                            maxLines: 3,
+                                            overflow: TextOverflow.ellipsis,
+                                            text: TextSpan(
+                                                text: 'Comment \n',
+                                                style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                                children: [
+                                                  TextSpan(
+                                                    text: filteredNotoes[index]
+                                                        .comment,
+                                                    style: const TextStyle(
+                                                      color: Colors.red,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontSize: 12,
+                                                    ),
+                                                  )
+                                                ]),
+                                          ),
+                                        )
+                                      : const SizedBox(),
+                                  defaultButton(
+                                    text: 'Save',
+                                    onPressed: () {
+                                      if (answerController.text != '') {
+                                        firebaseReposatory
+                                            .createUserMarathonAnswer(
+                                          marathonId: filteredNotoes[index].id,
+                                          answer: answerController.text,
+                                          comment:
+                                              filteredNotoes[index].comment,
+                                        )
+                                            .then((value) {
+                                          defaultSnackBar(
+                                              message: 'Answer Saved',
+                                              context: context);
+                                        });
+                                      }
+                                    },
+                                    width: MediaQuery.of(context).size.width,
+                                  )
+                                ],
                               ),
-                            ),
-                          ),
-                          defaultButton(
-                            text: 'Save',
-                            onPressed: () {
-                              if (answerController.text != '') {
-                                firebaseReposatory
-                                    .createUserMarathonAnswer(
-                                        marathonId: filteredNotoes[index].id,
-                                        answer: answerController.text)
-                                    .then((value) {
-                                  showToast(message: 'Answer Saved');
-                                });
-                              }
-                            },
-                            width: MediaQuery.of(context).size.width,
-                          )
-                        ],
+                            ));
+                      },
+                    )
+                  : Center(
+                      child: defaultText(
+                        text: 'No Data Found',
                       ),
-                    ));
-              },
+                    ),
             ),
-          ))
-        ],
-      ),
-    );
+            progressFlag
+                ? Card(
+                    elevation: 1,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        defaultText(text: 'wait until loading complete '),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        defaultLoading(),
+                      ],
+                    ),
+                  )
+                : const SizedBox(),
+          ],
+        ));
   }
 
   void getMarathonData() {
+    progressFlag = true;
+
     MarathonAnswerModel marathonAnswerModel;
     sampleNotes = [];
     firebaseReposatory.getMarathonData().then((value) {
-      firebaseReposatory
-          .getUserMarathonAnswerData(userId: constUid)
-          .then((answer) {
+      firebaseReposatory.getUserMarathonAnswerData().then((answer) {
         for (int i = 0; i < value.docs.length; i++) {
           String ans = '', modifiedAnswerDate = '', comment = '';
           for (int j = 0; j < answer.docs.length; j++) {
@@ -246,7 +279,9 @@ class _MakhdomMarathonState extends State<MakhdomMarathon> {
           sampleNotes.add(marathonAnswerModel);
         }
         filteredNotoes = sampleNotes;
-        setState(() {});
+        setState(() {
+          progressFlag = false;
+        });
       });
     });
   }

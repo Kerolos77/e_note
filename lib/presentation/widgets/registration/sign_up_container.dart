@@ -5,6 +5,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:intl/intl.dart';
 
 import '../global/default_button.dart';
+import '../global/default_loading.dart';
 import '../global/default_text/default_text.dart';
 import '../global/default_text_field.dart';
 
@@ -53,7 +54,7 @@ Widget signUpContainer({
             SizedBox(
               height: MediaQuery.of(context).size.height / 30,
             ),
-            defaultTextField(
+            DefaultTextField(
               control: fullNameController,
               text: 'Full Name',
               type: TextInputType.name,
@@ -67,7 +68,7 @@ Widget signUpContainer({
             SizedBox(
               height: MediaQuery.of(context).size.height / 30,
             ),
-            defaultTextField(
+            DefaultTextField(
               control: phoneController,
               text: 'WhatsApp Number',
               type: TextInputType.phone,
@@ -84,7 +85,7 @@ Widget signUpContainer({
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                defaultTextField(
+                DefaultTextField(
                   control: emailController,
                   text: 'E-mail',
                   type: TextInputType.emailAddress,
@@ -95,16 +96,19 @@ Widget signUpContainer({
                     return null;
                   },
                 ),
-                TextButton(
-                    onPressed: verifyOnPressed,
-                    child: defaultText(
-                        text: 'verify Email', color: Colors.blue, size: 12)),
+                // TextButton(
+                //     onPressed: verifyOnPressed,
+                //     child: defaultText(
+                //         text: 'verify Email', color: Colors.blue, size: 12)),
               ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 30,
             ),
             Row(
               children: [
                 Expanded(
-                  child: defaultTextField(
+                  child: DefaultTextField(
                     control: birthDateController,
                     readOnly: true,
                     text: 'Birth Date',
@@ -118,8 +122,8 @@ Widget signUpContainer({
                         builder: (context, child) {
                           return Theme(
                             data: Theme.of(context).copyWith(
-                              colorScheme: ColorScheme.light(
-                                primary: Colors.green.shade300,
+                              colorScheme: const ColorScheme.light(
+                                primary: ConstColors.primaryColor,
                                 // header background color
                                 onPrimary: Colors.black,
                                 // header text color
@@ -153,7 +157,7 @@ Widget signUpContainer({
                   width: 17,
                 ),
                 Expanded(
-                  child: defaultTextField(
+                  child: DefaultTextField(
                     control: teamIdController,
                     text: 'Team ID',
                     type: TextInputType.text,
@@ -169,14 +173,30 @@ Widget signUpContainer({
                 ),
               ],
             ),
+            // SizedBox(
+            //   height: MediaQuery.of(context).size.height / 30,
+            // ),
+            // DefaultTextField(
+            //   control: payIdController,
+            //   text: 'Pay ID',
+            //   type: TextInputType.text,
+            //   validate: (value) {
+            //     firebaseReposatory.verifyPayId(value).then((value) {
+            //       if (value.data() == null) {
+            //         return 'Please enter a valid Pay ID';
+            //       }
+            //       return null;
+            //     });
+            //   },
+            // ),
             SizedBox(
               height: MediaQuery.of(context).size.height / 30,
             ),
-            defaultTextField(
+            DefaultTextField(
+                isPassword: true,
                 control: passwordController,
                 text: 'Password',
                 type: TextInputType.emailAddress,
-                obscure: false,
                 validate: (value) {
                   if (value.isEmpty) {
                     return 'Please enter your password';
@@ -186,11 +206,11 @@ Widget signUpContainer({
             SizedBox(
               height: MediaQuery.of(context).size.height / 30,
             ),
-            defaultTextField(
+            DefaultTextField(
                 control: confirmPasswordController,
                 text: 'Confirm Password',
                 type: TextInputType.emailAddress,
-                obscure: false,
+                isPassword: true,
                 validate: (value) {
                   if (value.isEmpty) {
                     return 'Please enter your password';
@@ -208,9 +228,7 @@ Widget signUpContainer({
                   width: MediaQuery.of(context).size.width,
                   text: "Sign Up",
                   onPressed: onPressed),
-              fallback: (BuildContext context) => const Center(
-                child: CircularProgressIndicator(),
-              ),
+              fallback: (BuildContext context) => defaultLoading(),
             ),
           ],
         ),
